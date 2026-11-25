@@ -1,5 +1,5 @@
 """Flujo Selenium: login -> sucursal -> búsqueda -> selección -> módulo de pago."""
-import base64, traceback
+import base64, time, traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
@@ -15,6 +15,7 @@ STEPS = [
     "Buscar hoteles", "Seleccionar resultado", "Llegar al módulo de pago",
 ]
 
+
 def build_driver():
     opts = webdriver.ChromeOptions()
     opts.set_capability("goog:loggingPrefs", {"performance": "ALL"})
@@ -25,9 +26,11 @@ def build_driver():
     d.execute_cdp_cmd("Network.enable", {})
     return d
 
+
 def loc(key):
     kind, val = config.SEL[key]
     return BY[kind], val
+
 
 def run_flow():
     bus.emit("reset", steps=STEPS)
@@ -44,17 +47,22 @@ def run_flow():
 
     try:
         driver = build_driver()
-        net = NetworkCollector(driver); net.start()
+        net = NetworkCollector(driver)
+        net.start()
         wait = WebDriverWait(driver, 30)
         click = lambda k: wait.until(EC.element_to_be_clickable(loc(k))).click()
         type_ = lambda k, t: wait.until(EC.visibility_of_element_located(loc(k))).send_keys(t)
 
         def login():
             driver.get(config.BASE_URL)
-            type_("login_user", config.USERNAME)
-            type_("login_pass", config.PASSWORD)
+            for key, val in [("login_user", config.USERNAME),
+                             ("login_pass", config.PASSWORD),
+                             ("login_service", config.SERVICE)]:
+                el = wait.until(EC.visibility_of_element_located(loc(key)))
+                el.clear()
+                el.send_keys(val)
             click("login_submit")
-            wait.until(EC.visibility_of_element_located(loc("crear_reserva")))
+            wait.until(lambda d: "Login.aspx" not in d.current_url)
 
         def reservas():
             click("crear_reserva")
@@ -83,13 +91,12 @@ def run_flow():
         bus.emit("done", ok=True)
 
     except Exception as e:
-        bus.emit("step", index=current if current is not None else 0,
-                 name=STEPS[current or 0], status="error", error=str(e))
+        idx = current if current is not None else 0
+        bus.emit("step", index=idx, name=STEPS[idx], status="error", error=str(e))
         bus.emit("done", ok=False, error=traceback.format_exc())
     finally:
         if net:
-            import time; time.sleep(1); net.stop()
+            time.sleep(1)
+            net.stop()
         if driver:
-            input_hold = False  # pon True si quieres dejar el navegador abierto
-            if not input_hold:
-                driver.quit()
+            driver.quit()
