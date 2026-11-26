@@ -83,6 +83,27 @@ SEL = {
 
     # --- MÓDULO DE PAGO ---
     "btn_pagar": ("xpath", "//input[contains(@id, 'btnPaymentMethodLOC')]"), 
-}
 
-HEADLESS = False
+
+    # --- HOTEL ---
+
+    "tab_hotel": (None, None),
+
+    "hotel_destino": (None, None),
+
+    "hotel_checkin": (None, None),
+
+    "hotel_checkout": (None, None),
+
+    "hotel_adultos": (None, None),
+
+    "hotel_habitaciones": (None, None),
+
+    "buscar_hotel": (None, None),
+
+    "hotel_resultado": (None, None),
+
+    "hotel_seleccionar": (None, None),
+
+    }
+
