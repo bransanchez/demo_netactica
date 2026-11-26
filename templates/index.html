@@ -1,75 +1,159 @@
-<!doctype html>
-<html lang="es"><head><meta charset="utf-8">
-<title>Demo Netactica · Ejecución en vivo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-:root{--bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mut:#6b7280;--bd:#e3e6ea;--ok:#16a34a;--err:#dc2626;--run:#2563eb}
-@media(prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1d2026;--tx:#e8eaed;--mut:#9aa0a6;--bd:#2c3037}}
-*{box-sizing:border-box}body{margin:0;font:14px system-ui,sans-serif;background:var(--bg);color:var(--tx)}
-header{display:flex;gap:12px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--bd);background:var(--card)}
-h1{font-size:16px;margin:0;flex:1}button{padding:8px 16px;border:0;border-radius:6px;background:var(--run);color:#fff;cursor:pointer;font-size:14px}
-button:disabled{opacity:.5}main{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px}
-@media(max-width:800px){main{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:12px}
-.step{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd);align-items:center}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--bd)}
-.running .dot{background:var(--run);animation:p 1s infinite}.ok .dot{background:var(--ok)}.error .dot{background:var(--err)}
-@keyframes p{50%{opacity:.3}}
-.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
-td.url{max-width:420px;overflow:hidden;text-overflow:ellipsis}tr.r{cursor:pointer}tr.r:hover{background:var(--bg)}
-.s2{color:var(--ok)}.s4,.s5,.failed{color:var(--err)}.pending{color:var(--mut)}
-pre{white-space:pre-wrap;word-break:break-all;background:var(--bg);padding:8px;border-radius:6px;max-height:240px;overflow:auto;font-size:12px}
-#info{color:var(--mut);margin-top:8px}img{max-width:100%;border:1px solid var(--bd);border-radius:6px;margin-top:8px}
-input{padding:6px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--tx)}
-</style></head><body>
-<header><h1>Demo Netactica · ejecución en vivo</h1><span id="status" style="color:var(--mut)">Listo</span>
-<button id="run">▶ Ejecutar</button></header>
-<main>
-<section class="card"><b>Pasos</b><div id="steps"></div><div id="info"></div><div id="shot"></div></section>
-<section class="card"><div style="display:flex;gap:8px;margin-bottom:8px"><b style="flex:1">Network (<span id="count">0</span>)</b>
-<input id="filter" placeholder="Filtrar por URL"></div>
-<div class="tw"><table><thead><tr><th>Método</th><th>URL</th><th>Estado</th><th>Tipo</th><th>Tiempo</th><th>Tamaño</th></tr></thead>
-<tbody id="rows"></tbody></table></div></section>
-</main>
-<script>
-const $=id=>document.getElementById(id);
-const reqs=new Map();
-function esc(s){return String(s??"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
-function renderRows(){
-  const f=$("filter").value.toLowerCase();
-  $("rows").innerHTML="";$("count").textContent=reqs.size;
-  for(const q of reqs.values()){
-    if(f&&!q.url.toLowerCase().includes(f))continue;
-    const tr=document.createElement("tr");tr.className="r";
-    const cls=q.state==="failed"?"failed":q.status?"s"+String(q.status)[0]:"pending";
-    tr.innerHTML=`<td>${q.method}</td><td class="url" title="${esc(q.url)}">${esc(q.url)}</td>
-    <td class="${cls}">${q.state==="failed"?"FAILED":q.status??"…"}</td><td>${esc(q.type)}</td>
-    <td>${q.time_ms!=null?q.time_ms+" ms":"…"}</td><td>${q.size!=null?(q.size/1024).toFixed(1)+" kB":"…"}</td>`;
-    tr.onclick=()=>toggle(tr,q);$("rows").appendChild(tr);
-  }
-}
-function toggle(tr,q){
-  if(tr.nextSibling&&tr.nextSibling.className==="d"){tr.nextSibling.remove();return}
-  const d=document.createElement("tr");d.className="d";
-  d.innerHTML=`<td colspan="6"><b>Request headers</b><pre>${esc(JSON.stringify(q.req_headers,null,2))}</pre>
-  ${q.post_data?`<b>Payload</b><pre>${esc(q.post_data)}</pre>`:""}
-  <b>Response headers</b><pre>${esc(JSON.stringify(q.res_headers||{},null,2))}</pre>
-  ${q.body?`<b>Response</b><pre>${esc(q.body)}</pre>`:""}</td>`;
-  tr.after(d);
-}
-function renderSteps(list){$("steps").innerHTML=list.map((n,i)=>`<div class="step" id="st${i}"><span class="dot"></span>${esc(n)}</div>`).join("")}
-const es=new EventSource("/stream");
-es.onmessage=e=>{
-  const ev=JSON.parse(e.data);
-  if(ev.type==="reset"){reqs.clear();renderSteps(ev.steps);renderRows();$("info").textContent="";$("shot").innerHTML="";$("status").textContent="Ejecutando…";$("run").disabled=true}
-  else if(ev.type==="step"){const el=$("st"+ev.index);if(el)el.className="step "+ev.status;
-    if(ev.screenshot)$("shot").innerHTML=`<img src="data:image/png;base64,${ev.screenshot}">`;
-    if(ev.error)$("info").textContent="Error: "+ev.error}
-  else if(ev.type==="net"){reqs.set(ev.id,ev);renderRows()}
-  else if(ev.type==="info"){$("info").textContent=ev.message}
-  else if(ev.type==="done"){$("status").textContent=ev.ok?"✔ Finalizó correctamente":"✖ Finalizó con error";$("run").disabled=false}
-};
-$("filter").oninput=renderRows;
-$("run").onclick=()=>fetch("/run",{method:"POST"});
-</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Netactica - Página en Vivo</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --border: #e2e8f0; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
+        .grid { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .step { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .step:last-child { border-bottom: none; }
+        .step .dot { width: 12px; height: 12px; border-radius: 50%; background: #cbd5e1; margin-right: 10px; }
+        .step.running .dot { background: #f59e0b; animation: pulse 1s infinite; }
+        .step.ok .dot { background: #10b981; }
+        .step.error .dot { background: #ef4444; }
+        .step .name { flex: 1; }
+        .step .status { font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #f1f5f9; }
+        .req-row { cursor: pointer; }
+        .req-row:hover { background: #f8fafc; }
+        .req-row.expanded { background: #eff6ff; }
+        .detail-box { display: none; padding: 15px; background: #f8fafc; border-radius: 4px; margin-top: 5px; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+        .detail-box.show { display: block; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+        .badge.ok { background: #dcfce7; color: #166534; }
+        .badge.error { background: #fee2e2; color: #991b1b; }
+        img.screenshot { max-width: 100%; border: 1px solid var(--border); border-radius: 4px; margin-top: 5px; display: none; }
+        .step.ok img.screenshot { display: block; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Demo Netactica</h1>
+        <button id="btnRun" onclick="run()">Ejecutar Flujo</button>
+    </div>
+    <div class="grid">
+        <div class="card">
+            <h3>Pasos del Flujo</h3>
+            <div id="steps"></div>
+        </div>
+        <div class="card">
+            <h3>Network (Peticiones)</h3>
+            <div style="max-height: 600px; overflow-y: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>Tiempo</th>
+                            <th>Tamaño</th>
+                        </tr>
+                    </thead>
+                    <tbody id="network"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const evtSource = new EventSource("/stream");
+        const btnRun = document.getElementById("btnRun");
+        const stepsDiv = document.getElementById("steps");
+        const netTable = document.getElementById("network");
+        let reqs = {};
+
+        function run() {
+            btnRun.disabled = true;
+            btnRun.innerText = "Ejecutando...";
+            fetch("/run", { method: "POST" }).catch(e => console.error(e));
+        }
+
+        evtSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === "reset") {
+                stepsDiv.innerHTML = "";
+                netTable.innerHTML = "";
+                reqs = {};
+                data.steps.forEach((name, i) => {
+                    stepsDiv.innerHTML += `
+                        <div class="step" id="step-${i}">
+                            <div class="dot"></div>
+                            <div class="name">${name}</div>
+                            <div class="status">Pendiente</div>
+                            <img class="screenshot" id="img-${i}">
+                        </div>`;
+                });
+            }
+            
+            if (data.type === "step") {
+                const el = document.getElementById(`step-${data.index}`);
+                el.className = `step ${data.status}`;
+                el.querySelector(".status").innerText = data.status;
+                if (data.screenshot) {
+                    document.getElementById(`img-${data.index}`).src = "data:image/png;base64," + data.screenshot;
+                }
+                if (data.error) {
+                    el.querySelector(".name").innerHTML += `<br><small style="color:#ef4444">${data.error}</small>`;
+                }
+            }
+
+            if (data.type === "info") {
+                console.log("INFO:", data.message);
+            }
+
+            if (data.type === "done") {
+                btnRun.disabled = false;
+                btnRun.innerText = "Ejecutar Flujo";
+                if (!data.ok) console.error("Error en el flujo:", data.error);
+            }
+
+            if (data.type === "net") {
+                let row = document.getElementById(`req-${data.id}`);
+                if (!row) {
+                    row = document.createElement("tr");
+                    row.id = `req-${data.id}`;
+                    row.className = "req-row";
+                    row.onclick = () => {
+                        const detail = row.nextElementSibling;
+                        if (detail) detail.classList.toggle("show");
+                    };
+                    netTable.prepend(row);
+                    
+                    // Fila de detalle
+                    const detailRow = document.createElement("tr");
+                    detailRow.innerHTML = `<td colspan="5"><div class="detail-box" id="det-${data.id}"></div></td>`;
+                    netTable.insertBefore(detailRow, row.nextSibling);
+                }
+                
+                const status = data.status ? `<span class="badge ${data.status < 400 ? 'ok' : 'error'}">${data.status}</span>` : "...";
+                const time = data.time_ms ? data.time_ms + " ms" : "...";
+                const size = data.size ? (data.size / 1024).toFixed(1) + " KB" : "...";
+                
+                row.innerHTML = `
+                    <td><b>${data.method}</b></td>
+                    <td>${data.url.length > 80 ? data.url.substring(0, 80) + "..." : data.url}</td>
+                    <td>${status}</td>
+                    <td>${time}</td>
+                    <td>${size}</td>
+                `;
+                
+                const det = document.getElementById(`det-${data.id}`);
+                if (det) {
+                    det.innerText = `URL: ${data.url}\nMétodo: ${data.method}\nStatus: ${data.status || 'Pendiente'}\n\nHeaders:\n${JSON.stringify(data.res_headers || {}, null, 2)}\n\nBody:\n${data.body || 'No disponible'}`;
+                }
+            }
+        };
+    </script>
+</body>
+</html>
