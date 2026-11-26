@@ -1,4 +1,4 @@
-"""Servidor de la página en vivo.  Uso:  python app.py  ->  http://localhost:5000"""
+"""Servidor de la página en vivo. Uso: python app.py -> http://localhost:5000"""
 import threading
 from flask import Flask, Response, render_template, jsonify
 from events import bus

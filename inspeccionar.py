@@ -18,18 +18,20 @@ return Array.from(document.querySelectorAll('input,button,select,textarea,a,[onc
    cls:(e.className&&e.className.toString().slice(0,50))||''}));
 """
 
+def corto(ex):
+    return str(ex).split("\n")[0][:120]
 
-def dump(driver, label, path):
-    lines = []
-
-    def volcar(titulo):
-        lines.append(f"\n=== {titulo} ===")
+def volcar(driver, path, lines):
+    titulo = "Página principal" if not path else "IFRAME " + " > ".join(map(str, path))
+    lines.append(f"\n=== {titulo} ===")
+    try:
         for e in driver.execute_script(JS):
             lines.append(f"{e['tag']:8} id={e['id']!r} name={e['name']!r} type={e['type']!r} "
                          f"texto={e['text']!r} placeholder={e['ph']!r} class={e['cls']!r}")
+    except Exception as ex:
+        lines.append(f"(no se pudo leer este contexto: {corto(ex)})")
+        return
 
-    driver.switch_to.default_content()
-    volcar("Página principal")
     frames = driver.find_elements(By.CSS_SELECTOR, "iframe,frame")
     for i, f in enumerate(frames):
         try:
@@ -39,7 +41,7 @@ def dump(driver, label, path):
             info = "(sin info)"
         lines.append(f"\n-- iframe {path + [i]}: {info}")
         try:
-            driver.switch_to.frame(i)          # por posición, no por elemento
+            driver.switch_to.frame(i)
         except Exception as ex:
             lines.append(f"(iframe {path + [i]} no accesible: {corto(ex)})")
             continue
@@ -47,7 +49,6 @@ def dump(driver, label, path):
             volcar(driver, path + [i], lines)
         finally:
             driver.switch_to.parent_frame()
-
 
 def dump(driver, path_archivo):
     lines = []
@@ -57,8 +58,6 @@ def dump(driver, path_archivo):
     with open(path_archivo, "w", encoding="utf-8") as fh:
         fh.write(f"URL: {driver.current_url}\n" + "\n".join(lines))
     print(f"Guardado: {path_archivo}  ({len(lines)} líneas)")
-
-
 
 if __name__ == "__main__":
     d = webdriver.Chrome()

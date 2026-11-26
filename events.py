@@ -1,5 +1,5 @@
 """Bus de eventos en memoria: el runner publica, la página en vivo consume (SSE)."""
-import threading, time
+import threading, time, json
 
 class EventBus:
     def __init__(self):
@@ -21,7 +21,6 @@ class EventBus:
             if not batch:
                 yield ": keepalive\n\n"
             for ev in batch:
-                import json
                 yield f"data: {json.dumps(ev, default=str)}\n\n"
 
 bus = EventBus()
