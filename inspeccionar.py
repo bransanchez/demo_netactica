@@ -1,6 +1,4 @@
 """Ayudante para encontrar selectores (no guarda el valor de campos de contraseña).
-Entra a TODOS los iframes (también anidados), porque Netactica carga el contenido ahí.
-
 Uso:  python inspeccionar.py
 1. Se abre Chrome en la URL de config.BASE_URL.
 2. Navega a mano hasta la pantalla que quieras.
@@ -12,41 +10,26 @@ from selenium.webdriver.common.by import By
 import config
 
 JS = """
-return Array.from(document.querySelectorAll('input,button,select,textarea,a,label,[onclick]'))
- .filter(e => e.offsetParent !== null || e.tagName === 'OPTION')
- .map(e => ({
-   tag: e.tagName.toLowerCase(), id: e.id, name: e.name || '', type: e.type || '',
-   text: (e.type === 'password' ? '' : (e.innerText || e.value || '')).trim().slice(0, 40),
-   ph: e.placeholder || '', title: e.title || '',
-   href: (e.getAttribute('href') || '').slice(0, 60),
-   onclick: (e.getAttribute('onclick') || '').slice(0, 60),
-   forr: e.htmlFor || '',
-   opts: e.tagName === 'SELECT'
-         ? Array.from(e.options).slice(0, 8).map(o => o.text.trim()).join(' | ') : '',
-   cls: (e.className && e.className.toString().slice(0, 40)) || ''
- }));
+return Array.from(document.querySelectorAll('input,button,select,textarea,a,[onclick]'))
+ .filter(e => e.offsetParent !== null)
+ .map(e => ({tag:e.tagName.toLowerCase(), id:e.id, name:e.name||'', type:e.type||'',
+   text:(e.type==='password' ? '' : (e.innerText||e.value||'')).trim().slice(0,40),
+   ph:e.placeholder||'',
+   cls:(e.className&&e.className.toString().slice(0,50))||''}));
 """
 
 
-def corto(ex):
-    return str(ex).split("\n")[0][:120]
+def dump(driver, label, path):
+    lines = []
 
-
-def volcar(driver, path, lines):
-    titulo = "Página principal" if not path else "IFRAME " + " > ".join(map(str, path))
-    lines.append(f"\n=== {titulo} ===")
-    try:
+    def volcar(titulo):
+        lines.append(f"\n=== {titulo} ===")
         for e in driver.execute_script(JS):
-            partes = [f"{e['tag']:8}", f"id={e['id']!r}", f"name={e['name']!r}", f"type={e['type']!r}",
-                      f"texto={e['text']!r}"]
-            for k in ("ph", "title", "href", "onclick", "forr", "opts", "cls"):
-                if e[k]:
-                    partes.append(f"{k}={e[k]!r}")
-            lines.append(" ".join(partes))
-    except Exception as ex:
-        lines.append(f"(no se pudo leer este contexto: {corto(ex)})")
-        return
+            lines.append(f"{e['tag']:8} id={e['id']!r} name={e['name']!r} type={e['type']!r} "
+                         f"texto={e['text']!r} placeholder={e['ph']!r} class={e['cls']!r}")
 
+    driver.switch_to.default_content()
+    volcar("Página principal")
     frames = driver.find_elements(By.CSS_SELECTOR, "iframe,frame")
     for i, f in enumerate(frames):
         try:
@@ -74,6 +57,7 @@ def dump(driver, path_archivo):
     with open(path_archivo, "w", encoding="utf-8") as fh:
         fh.write(f"URL: {driver.current_url}\n" + "\n".join(lines))
     print(f"Guardado: {path_archivo}  ({len(lines)} líneas)")
+
 
 
 if __name__ == "__main__":
