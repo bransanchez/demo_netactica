@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-"""Flujo Selenium: login -> sucursal -> búsqueda -> selección -> módulo de pago."""
-import base64, time, traceback
-=======
 """Flujo Selenium: login -> reserva -> búsqueda -> selección -> datos -> pago."""
 import base64, traceback, time
->>>>>>> 125bbc6 (flujo aereo terminado, falta mostrar las peticiones en network)
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
@@ -29,7 +24,6 @@ STEPS = [
     "Módulo de pago"
 ]
 
-
 def build_driver():
     opts = webdriver.ChromeOptions()
     opts.set_capability("goog:loggingPrefs", {"performance": "ALL"})
@@ -40,13 +34,11 @@ def build_driver():
     d.execute_cdp_cmd("Network.enable", {})
     return d
 
-
 def loc(key):
     kind, val = config.SEL[key]
     if kind is None:
         raise RuntimeError(f"Selector '{key}' no configurado")
     return BY[kind], val
-
 
 def run_flow():
     bus.emit("reset", steps=STEPS)
@@ -63,23 +55,15 @@ def run_flow():
 
     try:
         driver = build_driver()
-<<<<<<< HEAD
         net = NetworkCollector(driver)
         net.start()
-        wait = WebDriverWait(driver, 30)
-        click = lambda k: wait.until(EC.element_to_be_clickable(loc(k))).click()
-        type_ = lambda k, t: wait.until(EC.visibility_of_element_located(loc(k))).send_keys(t)
-=======
-        net = NetworkCollector(driver); net.start()
         
         # --- FUNCIONES BLINDADAS ---
-        
         def esperar_elemento(key, tiempo=None):
             t = tiempo if tiempo else config.TIEMPO_ESPERA
             return WebDriverWait(driver, t).until(
                 EC.presence_of_element_located(loc(key))
             )
->>>>>>> 125bbc6 (flujo aereo terminado, falta mostrar las peticiones en network)
 
         def click_seguro(key):
             el = esperar_elemento(key)
@@ -111,21 +95,16 @@ def run_flow():
         # 1) Login
         def login():
             driver.get(config.BASE_URL)
-<<<<<<< HEAD
-            for key, val in [("login_user", config.USERNAME),
-                             ("login_pass", config.PASSWORD),
-                             ("login_service", config.SERVICE)]:
-                el = wait.until(EC.visibility_of_element_located(loc(key)))
-                el.clear()
-                el.send_keys(val)
-            click("login_submit")
-            wait.until(lambda d: "Login.aspx" not in d.current_url)
-=======
             el_user = esperar_elemento("login_user")
+            el_user.clear()
             el_user.send_keys(config.USERNAME)
+            
             el_pass = esperar_elemento("login_pass")
+            el_pass.clear()
             el_pass.send_keys(config.PASSWORD)
+            
             el_serv = esperar_elemento("login_service")
+            el_serv.clear()
             el_serv.send_keys(config.SERVICE)
             
             click_seguro("login_submit")
@@ -134,7 +113,6 @@ def run_flow():
                 lambda d: "Login.aspx" not in d.current_url
             )
             time.sleep(2) 
->>>>>>> 125bbc6 (flujo aereo terminado, falta mostrar las peticiones en network)
 
         # 2) Crear Reserva
         def reservas():
@@ -292,46 +270,37 @@ def run_flow():
             reconectar_iframe()
             time.sleep(3)
             
-            # 1. Seleccionar Título (Sr)
             bus.emit("info", message="Seleccionando tratamiento (Sr)...")
             sel_titulo = Select(esperar_elemento("pax_titulo"))
-            sel_titulo.select_by_value("0") # "0" es el value de "Sr"
+            sel_titulo.select_by_value("0") 
             
-            # 2. Nombre y Apellido
             el_name = esperar_elemento("pax_nombre")
             el_name.send_keys(config.PAX_NOMBRE)
             el_last = esperar_elemento("pax_apellido")
             el_last.send_keys(config.PAX_APELLIDO)
             
-            # 3. Documento
             el_doc = esperar_elemento("pax_documento")
             el_doc.send_keys(config.PAX_DOC)
             
-            # 4. Nacionalidad (Escribir, esperar y HACER CLIC en la opción)
             bus.emit("info", message="Escribiendo nacionalidad y seleccionando...")
             nac = esperar_elemento("pax_nacionalidad")
             nac.clear()
             nac.send_keys(config.PAX_NACIONALIDAD)
             
-            # Esperamos explícitamente a que la lista de sugerencias aparezca
             bus.emit("info", message="Esperando que cargue el menú de nacionalidad...")
             try:
-                # Esperar hasta 10 seg a que aparezca la primera opción del autocompletado
                 opt_nac = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, "ul.ui-autocomplete li:first-child"))
                 )
-                # Hacer clic con JS para evitar bloqueos
                 driver.execute_script("arguments[0].click();", opt_nac)
                 bus.emit("info", message="Nacionalidad seleccionada del menú.")
             except TimeoutException:
-                # Si por alguna razón no sale el menú, usamos el truco del TAB como respaldo
                 bus.emit("info", message="No salió el menú. Usando TAB...")
                 nac.send_keys(Keys.ARROW_DOWN)
                 nac.send_keys(Keys.TAB)
             
-            time.sleep(1.5) # Pausa para que el sistema valide
+            time.sleep(1.5) 
 
-            # 5. Fecha de Nacimiento (Día, Mes, Año)
             bus.emit("info", message="Llenando fecha de nacimiento...")
             try:
                 Select(esperar_elemento("pax_dob_dia", 5)).select_by_value("1")
@@ -342,13 +311,11 @@ def run_flow():
             except Exception as e:
                 bus.emit("info", message=f"No se pudo llenar la fecha de nacimiento (puede que sea opcional): {e}")
 
-            # 6. Email y Teléfono
             el_mail = esperar_elemento("pax_email")
             el_mail.send_keys(config.PAX_EMAIL)
             el_phone = esperar_elemento("pax_telefono")
             el_phone.send_keys(config.PAX_TELEFONO)
             
-            # 7. Términos y Continuar
             click_seguro("chk_terminos")
             click_seguro("btn_continuar_datos")
             time.sleep(4)
@@ -373,10 +340,6 @@ def run_flow():
             time.sleep(1)
             net.stop()
         if driver:
-<<<<<<< HEAD
-            driver.quit()
-=======
-            MANTENER_ABIERTO_PARA_DEBUG = True 
+            MANTENER_ABIERTO_PARA_DEBUG = False 
             if not MANTENER_ABIERTO_PARA_DEBUG:
                 driver.quit()
->>>>>>> 125bbc6 (flujo aereo terminado, falta mostrar las peticiones en network)
