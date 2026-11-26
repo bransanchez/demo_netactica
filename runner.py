@@ -326,6 +326,43 @@ def run_flow():
             esperar_elemento("btn_pagar", 30)
             bus.emit("info", message="¡Módulo de pago alcanzado con éxito!")
 
+         # --- HOTEL (PREPARACIÓN) ---
+
+        
+            def buscar_hotel():
+
+                bus.emit(
+                "info",
+                 message="HOTEL: búsqueda pendiente de implementación"
+             )
+
+
+            def seleccionar_hotel():
+
+             bus.emit(
+            "info",
+            message="HOTEL: selección pendiente de implementación"
+            )
+
+
+            def confirmar_hotel():
+
+             bus.emit(
+            "info",
+             message="HOTEL: confirmación pendiente de implementación"
+            )
+
+
+            def run_hotel_demo():
+
+                buscar_hotel()
+
+                seleccionar_hotel()
+
+                confirmar_hotel()   
+
+
+
         # --- EJECUCIÓN ---
         for i, fn in enumerate([login, reservas, sucursal, buscar, seleccionar, confirmar, datos, pago]):
             step(i, fn)
