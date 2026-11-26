@@ -1,0 +1,82 @@
+URL: https://preprod.netactica.com/NetAdmin/Admin.aspx
+
+=== Página principal ===
+button   id='btnCloseRenew' name='' type='button' texto='' onclick='PasswordDialog.close();'
+div      id='ctl00_PasswordDialog_InnerSpan' name='' type='' texto='' onclick='PasswordDialog.Focus();'
+label    id='' name='' type='' texto=''
+input    id='ctl00_PasswordRenewControl_txtCurrentPassword' name='ctl00$PasswordRenewControl$txtCurrentPassword' type='password' texto=''
+label    id='' name='' type='' texto=''
+input    id='ctl00_PasswordRenewControl_txtNewPassword' name='ctl00$PasswordRenewControl$txtNewPassword' type='password' texto=''
+label    id='' name='' type='' texto=''
+input    id='ctl00_PasswordRenewControl_txtConfirmPassword' name='ctl00$PasswordRenewControl$txtConfirmPassword' type='password' texto=''
+a        id='' name='' type='' texto='' href='#' onclick='PasswordDialog.close();'
+input    id='ctl00_btnRenew' name='ctl00$btnRenew' type='submit' texto='Aplicar cambio' onclick='if (Page_ClientValidate()) { PasswordDialog.close(); };WebFo' cls='nts-button'
+button   id='btnClose' name='' type='button' texto=''
+div      id='ctl00_LogOutDialog_CommonDialog_InnerSpan' name='' type='' texto='' onclick='CommonDialog.Focus();'
+img      id='ctl00_LogOutDialog_imgOk' name='imgOk' type='' texto='' onclick="document.getElementById('BtnOk').click();"
+a        id='' name='' type='' texto='AutomaTest AutomaTest (practiAutoma)' href='javascript:void(0)' onclick='showHideUserOptions()'
+input    id='BtnOk' name='' type='button' texto='' onclick='RaiseEvent();'
+input    id='ctl00_ContentPlaceHolder1_MainMenuControl_btnCreateItinerary' name='ctl00$ContentPlaceHolder1$MainMenuControl$btnCreateItinerary' type='button' texto='Crear Reserva' onclick='OpenCreateItineraryDialog()' cls='nts-button nts-highlight nts-icon-add'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1' name='' type='' texto='Configuración\n\t\n\t\n\t\nReglas de Negocio\n\t\n' onclick='if(window.ctl00_ContentPlaceHolder1_MainMenuControl_TreeView' cls='TreeView'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_13_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_13_cell' name='' type='' texto='Configuración' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_43_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_43_cell' name='' type='' texto='Reglas de Negocio' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_63_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_63_cell' name='' type='' texto='Productos' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_81_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_81_cell' name='' type='' texto='Herramientas' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_85_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_85_cell' name='' type='' texto='Personas y Compañías' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_98_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_98_cell' name='' type='' texto='Reservas' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_100_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_100_cell' name='' type='' texto='Reportes' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_105_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_105_cell' name='' type='' texto='Terminal' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+a        id='' name='' type='' texto='' href='#'
+img      id='' name='' type='' texto='' onclick="ctl00_ContentPlaceHolder1_splitterMenu.ToggleExpand('ctl00_C"
+input    id='ctl00_ContentPlaceHolder1_txtSearch' name='ctl00$ContentPlaceHolder1$txtSearch' type='text' texto='' ph='Ingrese el número de reserva, el nombre del cliente o pasajero titular' cls='nts-input-group-field ui-autocomplete-in'
+input    id='ctl00_ContentPlaceHolder1_btnSearch' name='ctl00$ContentPlaceHolder1$btnSearch' type='button' texto='' cls='nts-button nts-button-search'
+a        id='' name='' type='' texto='' href='javascript:createTab()' cls='newTab'
+table    id='ctl00_ContentPlaceHolder1_TabStrip1_0' name='' type='' texto='Travel File13...' title='Travel File1358345' onclick='ComponentArt_TabStrip_TabClick(this)' cls='DefaultTab'
+a        id='' name='' type='' texto='' href="javascript:closeTab('Tab_0')"
+table    id='ctl00_ContentPlaceHolder1_TabStrip1_1' name='' type='' texto='Cliente' title='Cliente' onclick='ComponentArt_TabStrip_TabClick(this)' cls='SelectedTab'
+a        id='' name='' type='' texto='' href="javascript:closeTab('Tab_1')"
+
+-- iframe [0]: id='iframeTab_0' name='' src='https://preprod.netactica.com/NetAdmin/Flows/NetFulfillment.aspx?TravelItinerary' visible=False
+
+=== IFRAME 0 ===
+
+-- iframe [0, 0]: id='ctl00_FlowIFrame' name='' src='https://preprod.netactica.com/NetFulfillment/login.aspx?TravelItineraryId=135834' visible=False
+
+=== IFRAME 0 > 0 ===
+
+-- iframe [0, 0, 0]: id='iframeBankTransfer' name='' src='' visible=False
+
+=== IFRAME 0 > 0 > 0 ===
+
+-- iframe [1]: id='iframeTab_1' name='' src='https://preprod.netactica.com/NetAdmin/Flows/Catmandu.aspx?url=%2Fes-CO%2FAir%2F' visible=True
+
+=== IFRAME 1 ===
+
+-- iframe [1, 0]: id='ctl00_FlowIFrame' name='' src='https://preprod.netactica.com/es-CO/Air/RT/BOG/MIA/2027-03-11/2027-03-18/1/0/0/N' visible=True
+
+=== IFRAME 1 > 0 ===
+button   id='' name='' type='button' texto='×' cls='close-button'
+a        id='' name='' type='' texto='Ver otras opciones' href='javascript:void()' onclick='changeAirOption();'
+a        id='8ox9tu-accordion-label' name='' type='' texto='IDA\njueves, 11 mar.\nBOG\nBogota\nMIA\nMiami' href='#' cls='accordion-title'
+a        id='' name='' type='' texto='Seleccionar' href='#.' onclick="SelectBySector('BAS', 1)" cls='button expanded'
+a        id='' name='' type='' texto='Seleccionar' href='#.' onclick="SelectBySector('CLS', 1)" cls='button expanded'
+a        id='' name='' type='' texto='Seleccionar' href='#.' onclick="SelectBySector('EFU', 1)" cls='button expanded'
+a        id='' name='' type='' texto='Seleccionar' href='#.' onclick="SelectBySector('PRO', 1)" cls='button expanded'
+a        id='' name='' type='' texto='Seleccionar' href='#.' onclick="SelectBySector('BFU', 1)" cls='button expanded'
+a        id='yofr5g-accordion-label' name='' type='' texto='VUELTA\njueves, 18 mar.\nMIA\nMiami\nBOG\nBog' href='#' cls='accordion-title'
+a        id='aAirPriceBreakdown' name='' type='' texto=''
+button   id='btnContinue' name='' type='submit' texto='Seguir' onclick='SetOptionsAndContinue()' cls='button expanded'

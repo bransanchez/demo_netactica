@@ -1,0 +1,471 @@
+URL: https://preprod.netactica.com/NetAdmin/Admin.aspx
+
+=== Página principal ===
+button   id='btnCloseRenew' name='' type='button' texto='' onclick='PasswordDialog.close();'
+div      id='ctl00_PasswordDialog_InnerSpan' name='' type='' texto='' onclick='PasswordDialog.Focus();'
+label    id='' name='' type='' texto=''
+input    id='ctl00_PasswordRenewControl_txtCurrentPassword' name='ctl00$PasswordRenewControl$txtCurrentPassword' type='password' texto=''
+label    id='' name='' type='' texto=''
+input    id='ctl00_PasswordRenewControl_txtNewPassword' name='ctl00$PasswordRenewControl$txtNewPassword' type='password' texto=''
+label    id='' name='' type='' texto=''
+input    id='ctl00_PasswordRenewControl_txtConfirmPassword' name='ctl00$PasswordRenewControl$txtConfirmPassword' type='password' texto=''
+a        id='' name='' type='' texto='' href='#' onclick='PasswordDialog.close();'
+input    id='ctl00_btnRenew' name='ctl00$btnRenew' type='submit' texto='Aplicar cambio' onclick='if (Page_ClientValidate()) { PasswordDialog.close(); };WebFo' cls='nts-button'
+button   id='btnClose' name='' type='button' texto=''
+div      id='ctl00_LogOutDialog_CommonDialog_InnerSpan' name='' type='' texto='' onclick='CommonDialog.Focus();'
+img      id='ctl00_LogOutDialog_imgOk' name='imgOk' type='' texto='' onclick="document.getElementById('BtnOk').click();"
+a        id='' name='' type='' texto='AutomaTest AutomaTest (practiAutoma)' href='javascript:void(0)' onclick='showHideUserOptions()'
+input    id='BtnOk' name='' type='button' texto='' onclick='RaiseEvent();'
+input    id='ctl00_ContentPlaceHolder1_MainMenuControl_btnCreateItinerary' name='ctl00$ContentPlaceHolder1$MainMenuControl$btnCreateItinerary' type='button' texto='Crear Reserva' onclick='OpenCreateItineraryDialog()' cls='nts-button nts-highlight nts-icon-add'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1' name='' type='' texto='Configuración\n\t\n\t\n\t\nReglas de Negocio\n\t\n' onclick='if(window.ctl00_ContentPlaceHolder1_MainMenuControl_TreeView' cls='TreeView'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_13_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_13_cell' name='' type='' texto='Configuración' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_43_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_43_cell' name='' type='' texto='Reglas de Negocio' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_63_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_63_cell' name='' type='' texto='Productos' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_81_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_81_cell' name='' type='' texto='Herramientas' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_85_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_85_cell' name='' type='' texto='Personas y Compañías' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_98_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_98_cell' name='' type='' texto='Reservas' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='' name='' type='' texto='' onclick='ComponentArt_CancelEvent(event);ctl00_ContentPlaceHolder1_Ma'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_100_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_100_cell' name='' type='' texto='Reportes' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+img      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_105_icon' name='' type='' texto='' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl'
+div      id='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1_item_105_cell' name='' type='' texto='Terminal' onclick='ctl00_ContentPlaceHolder1_MainMenuControl_TreeView1.HandleCl' cls='TreeNode'
+a        id='' name='' type='' texto='' href='#'
+img      id='' name='' type='' texto='' onclick="ctl00_ContentPlaceHolder1_splitterMenu.ToggleExpand('ctl00_C"
+input    id='ctl00_ContentPlaceHolder1_txtSearch' name='ctl00$ContentPlaceHolder1$txtSearch' type='text' texto='' ph='Ingrese el número de reserva, el nombre del cliente o pasajero titular' cls='nts-input-group-field ui-autocomplete-in'
+input    id='ctl00_ContentPlaceHolder1_btnSearch' name='ctl00$ContentPlaceHolder1$btnSearch' type='button' texto='' cls='nts-button nts-button-search'
+a        id='' name='' type='' texto='' href='javascript:createTab()' cls='newTab'
+table    id='ctl00_ContentPlaceHolder1_TabStrip1_0' name='' type='' texto='Travel File13...' title='Travel File1358345' onclick='ComponentArt_TabStrip_TabClick(this)' cls='DefaultTab'
+a        id='' name='' type='' texto='' href="javascript:closeTab('Tab_0')"
+table    id='ctl00_ContentPlaceHolder1_TabStrip1_1' name='' type='' texto='Cliente' title='Cliente' onclick='ComponentArt_TabStrip_TabClick(this)' cls='SelectedTab'
+a        id='' name='' type='' texto='' href="javascript:closeTab('Tab_1')"
+
+-- iframe [0]: id='iframeTab_0' name='' src='https://preprod.netactica.com/NetAdmin/Flows/NetFulfillment.aspx?TravelItinerary' visible=False
+
+=== IFRAME 0 ===
+
+-- iframe [0, 0]: id='ctl00_FlowIFrame' name='' src='https://preprod.netactica.com/NetFulfillment/login.aspx?TravelItineraryId=135834' visible=False
+
+=== IFRAME 0 > 0 ===
+
+-- iframe [0, 0, 0]: id='iframeBankTransfer' name='' src='' visible=False
+
+=== IFRAME 0 > 0 > 0 ===
+
+-- iframe [1]: id='iframeTab_1' name='' src='https://preprod.netactica.com/NetAdmin/Flows/Catmandu.aspx?url=%2Fes-CO%2FAir%2F' visible=True
+
+=== IFRAME 1 ===
+
+-- iframe [1, 0]: id='ctl00_FlowIFrame' name='' src='https://preprod.netactica.com/es-CO/Air/RT/BOG/MIA/2027-03-11/2027-03-18/1/0/0/N' visible=True
+
+=== IFRAME 1 > 0 ===
+button   id='' name='' type='button' texto='×' cls='close-button'
+input    id='txtCityFrom' name='' type='text' texto='Bogotá, Colombia (BOG)' cls='ui-autocomplete-input'
+input    id='txtCityTo' name='' type='text' texto='Miami, Estados Unidos (MIA)' cls='ui-autocomplete-input'
+a        id='' name='' type='' texto='Agregar otro destino' href='javascript:addTripOption();' cls='right'
+label    id='' name='' type='' texto='Partida' cls='text-left'
+input    id='txtCheckin' name='' type='text' texto='11/03/2027' cls='air-checkin hasDatepicker'
+label    id='' name='' type='' texto='Regreso' cls='text-left'
+input    id='txtCheckout' name='' type='text' texto='18/03/2027' cls='air-checkout hasDatepicker'
+input    id='chkOW' name='' type='checkbox' texto='on' onclick='checkOW()'
+label    id='' name='' type='' texto='Solo Ida' forr='chkOW'
+a        id='airPopUpBtn' name='' type='' texto='' cls='airPopUpBtn popup-control-btn'
+label    id='' name='' type='' texto='Pasajeros' cls='text-left'
+input    id='txtAirNumberPassenger' name='' type='text' texto='1' cls='form-control air-passengers-input air-mu'
+input    id='chkBaggageIncluded' name='' type='checkbox' texto='on'
+label    id='' name='' type='' texto='Solo con equipaje' forr='chkBaggageIncluded'
+input    id='chkDirectFlight' name='' type='checkbox' texto='on'
+label    id='' name='' type='' texto='Solo vuelos directos' forr='chkDirectFlight'
+a        id='aShowHideAdvanced' name='' type='' texto='Opciones Avanzadas >' href='javascript:void(0)' onclick='showHideAdv()'
+input    id='' name='' type='button' texto='Buscar' onclick='doNewSearch()' cls='button expanded small round btnAirDoNewS'
+input    id='chk-airPriceRanges-0' name='chk-airPriceRanges-0' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-0' name='' type='' texto='18' href='#' onclick='ClickAirPriceRangesChkOption(0)'
+input    id='chk-airPriceRanges-1' name='chk-airPriceRanges-1' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-1' name='' type='' texto='69' href='#' onclick='ClickAirPriceRangesChkOption(1)'
+input    id='chk-airPriceRanges-2' name='chk-airPriceRanges-2' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-2' name='' type='' texto='56' href='#' onclick='ClickAirPriceRangesChkOption(2)'
+input    id='chk-airPriceRanges-3' name='chk-airPriceRanges-3' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-3' name='' type='' texto='47' href='#' onclick='ClickAirPriceRangesChkOption(3)'
+input    id='chk-airPriceRanges-4' name='chk-airPriceRanges-4' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-4' name='' type='' texto='68' href='#' onclick='ClickAirPriceRangesChkOption(4)'
+input    id='chk-airPriceRanges-5' name='chk-airPriceRanges-5' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-5' name='' type='' texto='20' href='#' onclick='ClickAirPriceRangesChkOption(5)'
+input    id='chk-airPriceRanges-6' name='chk-airPriceRanges-6' type='checkbox' texto='on' cls='custom'
+a        id='lnk-airPriceRanges-6' name='' type='' texto='6' href='#' onclick='ClickAirPriceRangesChkOption(6)'
+input    id='txtAirPriceFrom' name='' type='text' texto='' ph='Desde' cls='textPriceRange'
+input    id='txtAirPriceTo' name='' type='text' texto='' ph='Hasta' cls='textPriceRange'
+a        id='' name='' type='' texto='' href='javascript:AirTextFilterByPrice()'
+a        id='aNoFilterAirPriceRanges' name='' type='' texto='No filtrar por precio' href='javascript:void(0)' onclick="clearFilterByType('airPriceRanges')"
+input    id='checkbox-stop-0' name='checkbox-stop-0' type='checkbox' texto='Directo' cls='custom'
+a        id='lnk-stop-0' name='' type='' texto='34' href='javascript:void(0)' onclick='ClickStopChkOption(0)'
+input    id='checkbox-stop-1' name='checkbox-stop-1' type='checkbox' texto='1 Escala' cls='custom'
+a        id='lnk-stop-1' name='' type='' texto='232' href='javascript:void(0)' onclick='ClickStopChkOption(1)'
+input    id='checkbox-stop-2' name='checkbox-stop-2' type='checkbox' texto='2 Escalas o más' cls='custom'
+a        id='lnk-stop-2' name='' type='' texto='18' href='javascript:void(0)' onclick='ClickStopChkOption(2)'
+input    id='checkbox-baggage-0' name='checkbox-baggage-0' type='checkbox' texto='Sin Equipaje' cls='custom'
+a        id='lnk-baggage-0' name='' type='' texto='179' href='javascript:void(0)' onclick='ClickBaggageChkOption(0)'
+input    id='checkbox-baggage-1' name='checkbox-baggage-1' type='checkbox' texto='1 Equipaje' cls='custom'
+a        id='lnk-baggage-1' name='' type='' texto='105' href='javascript:void(0)' onclick='ClickBaggageChkOption(1)'
+input    id='checkbox-mini-0' name='checkbox-0' type='checkbox' texto='LA' cls='custom'
+a        id='lnk-airname-0' name='' type='' texto='104' href='#' onclick='ClickAirCompanyChkOption(0)'
+input    id='checkbox-mini-1' name='checkbox-1' type='checkbox' texto='CM' cls='custom'
+a        id='lnk-airname-1' name='' type='' texto='81' href='#' onclick='ClickAirCompanyChkOption(1)'
+input    id='checkbox-mini-2' name='checkbox-2' type='checkbox' texto='AV' cls='custom'
+a        id='lnk-airname-2' name='' type='' texto='41' href='#' onclick='ClickAirCompanyChkOption(2)'
+input    id='checkbox-mini-3' name='checkbox-3' type='checkbox' texto='UA' cls='custom'
+a        id='lnk-airname-3' name='' type='' texto='35' href='#' onclick='ClickAirCompanyChkOption(3)'
+input    id='checkbox-mini-4' name='checkbox-4' type='checkbox' texto='DL' cls='custom'
+a        id='lnk-airname-4' name='' type='' texto='12' href='#' onclick='ClickAirCompanyChkOption(4)'
+input    id='checkbox-mini-5' name='checkbox-5' type='checkbox' texto='Múltiples Aerolíneas' cls='custom'
+a        id='lnk-airname-5' name='' type='' texto='7' href='#' onclick='ClickAirCompanyChkOption(5)'
+input    id='checkbox-mini-6' name='checkbox-6' type='checkbox' texto='AA' cls='custom'
+a        id='lnk-airname-6' name='' type='' texto='6' href='#' onclick='ClickAirCompanyChkOption(6)'
+input    id='checkbox-mini-7' name='checkbox-7' type='checkbox' texto='DM' cls='custom'
+a        id='lnk-airname-7' name='' type='' texto='5' href='#' onclick='ClickAirCompanyChkOption(7)'
+input    id='checkbox-mini-8' name='checkbox-8' type='checkbox' texto='EK' cls='custom'
+a        id='lnk-airname-8' name='' type='' texto='3' href='#' onclick='ClickAirCompanyChkOption(8)'
+input    id='checkbox-mini-9' name='checkbox-9' type='checkbox' texto='AC' cls='custom'
+a        id='lnk-airname-9' name='' type='' texto='1' href='#' onclick='ClickAirCompanyChkOption(9)'
+input    id='checkbox-mini-10' name='checkbox-10' type='checkbox' texto='AM' cls='custom'
+a        id='lnk-airname-10' name='' type='' texto='1' href='#' onclick='ClickAirCompanyChkOption(10)'
+a        id='' name='' type='' texto='Mostrar mas Opciones' href='javascript:void(0)' onclick='showMoreItems(this)'
+input    id='chk-airAlliance-0' name='chk-airAlliance-0' type='checkbox' texto='Oneworld' cls='custom'
+a        id='lnk-airAlliance-0' name='' type='' texto='5' href='#' onclick='ClickAirAlianceChkOption(0)'
+input    id='chk-airAlliance-1' name='chk-airAlliance-1' type='checkbox' texto='Skyteam' cls='custom'
+a        id='lnk-airAlliance-1' name='' type='' texto='15' href='#' onclick='ClickAirAlianceChkOption(1)'
+input    id='chk-airAlliance-2' name='chk-airAlliance-2' type='checkbox' texto='Star Alliance' cls='custom'
+a        id='lnk-airAlliance-2' name='' type='' texto='153' href='#' onclick='ClickAirAlianceChkOption(2)'
+a        id='aNoFilterAirAlliances' name='' type='' texto='No filtrar por Alianza' href='javascript:void(0)' onclick="clearFilterByType('airAlliances')"
+input    id='chk-airProvider-0' name='chk-airProvider-0' type='checkbox' texto='LatamNDC_CL' cls='custom'
+a        id='lnk-airProvider-0' name='' type='' texto='80' href='#' onclick='ClickAirProviderChkOption(0)'
+input    id='chk-airProvider-1' name='chk-airProvider-1' type='checkbox' texto='Simulado_Sabre' cls='custom'
+a        id='lnk-airProvider-1' name='' type='' texto='67' href='#' onclick='ClickAirProviderChkOption(1)'
+input    id='chk-airProvider-2' name='chk-airProvider-2' type='checkbox' texto='CopaAir' cls='custom'
+a        id='lnk-airProvider-2' name='' type='' texto='63' href='#' onclick='ClickAirProviderChkOption(2)'
+input    id='chk-airProvider-3' name='chk-airProvider-3' type='checkbox' texto='Amadeus' cls='custom'
+a        id='lnk-airProvider-3' name='' type='' texto='36' href='#' onclick='ClickAirProviderChkOption(3)'
+input    id='chk-airProvider-4' name='chk-airProvider-4' type='checkbox' texto='Elatam' cls='custom'
+a        id='lnk-airProvider-4' name='' type='' texto='21' href='#' onclick='ClickAirProviderChkOption(4)'
+input    id='chk-airProvider-5' name='chk-airProvider-5' type='checkbox' texto='Sabre' cls='custom'
+a        id='lnk-airProvider-5' name='' type='' texto='16' href='#' onclick='ClickAirProviderChkOption(5)'
+input    id='chk-airProvider-6' name='chk-airProvider-6' type='checkbox' texto='AereoNetsuite' cls='custom'
+a        id='lnk-airProvider-6' name='' type='' texto='1' href='#' onclick='ClickAirProviderChkOption(6)'
+a        id='aNoFilterAirProviders' name='' type='' texto='No filtrar por fuentes de vuelo' href='javascript:void(0)' onclick="clearFilterByType('airProviders')"
+a        id='' name='' type='' texto='No filtrar por horarios de salida' href='#' onclick="clearFilterByType('departureTimes')"
+a        id='divAirMatrix-label' name='' type='' texto='Precios por Aerolínea' href='#divAirMatrix'
+a        id='divFlexDatesMatrix-label' name='' type='' texto='Precio +/- 3 días' href='#divFlexDatesMatrix' onclick='javascript:renderFlexDatesMatrix(false)'
+a        id='' name='' type='' texto='Directo' href='javascript:void(0)' onclick='doMatrixFilter(null, 0)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick='doMatrixFilter(null, 1)'
+a        id='' name='' type='' texto='2 Escalas o más' href='javascript:void(0)' onclick='doMatrixFilter(null, 2)'
+button   id='' name='' type='button' texto='' cls='slick-prev slick-arrow slick-disabled'
+a        id='' name='' type='' texto='Copa Airlines' href='javascript:void(0)' onclick="doMatrixFilter('CM', null)"
+a        id='' name='' type='' texto='COP $ 1.400.158' href='javascript:void(0)' onclick="doMatrixFilter('CM', 1)"
+a        id='' name='' type='' texto='LATAM Airlines' href='javascript:void(0)' onclick="doMatrixFilter('LA', null)"
+a        id='' name='' type='' texto='COP $ 2.015.214' href='javascript:void(0)' onclick="doMatrixFilter('LA', 0)"
+a        id='' name='' type='' texto='COP $ 1.533.417' href='javascript:void(0)' onclick="doMatrixFilter('LA', 1)"
+a        id='' name='' type='' texto='Emirates Air' href='javascript:void(0)' onclick="doMatrixFilter('EK', null)"
+a        id='' name='' type='' texto='COP $ 1.720.040' href='javascript:void(0)' onclick="doMatrixFilter('EK', 0)"
+a        id='' name='' type='' texto='Avianca' href='javascript:void(0)' onclick="doMatrixFilter('AV', null)"
+a        id='' name='' type='' texto='COP $ 1.804.460' href='javascript:void(0)' onclick="doMatrixFilter('AV', 0)"
+a        id='' name='' type='' texto='COP $ 1.981.515' href='javascript:void(0)' onclick="doMatrixFilter('AV', 1)"
+a        id='' name='' type='' texto='DM' href='javascript:void(0)' onclick="doMatrixFilter('DM', null)"
+a        id='' name='' type='' texto='COP $ 1.836.590' href='javascript:void(0)' onclick="doMatrixFilter('DM', 1)"
+a        id='' name='' type='' texto='American' href='javascript:void(0)' onclick="doMatrixFilter('AA', null)"
+a        id='' name='' type='' texto='COP $ 1.882.040' href='javascript:void(0)' onclick="doMatrixFilter('AA', 0)"
+a        id='' name='' type='' texto='United' href='javascript:void(0)' onclick="doMatrixFilter('UA', null)"
+a        id='' name='' type='' texto='COP $ 4.124.840' href='javascript:void(0)' onclick="doMatrixFilter('UA', 0)"
+a        id='' name='' type='' texto='COP $ 1.976.300' href='javascript:void(0)' onclick="doMatrixFilter('UA', 1)"
+a        id='' name='' type='' texto='COP $ 5.522.600' href='javascript:void(0)' onclick="doMatrixFilter('UA', 2)"
+a        id='' name='' type='' texto='Delta' href='javascript:void(0)' onclick="doMatrixFilter('DL', null)"
+a        id='' name='' type='' texto='COP $ 1.996.040' href='javascript:void(0)' onclick="doMatrixFilter('DL', 0)"
+a        id='' name='' type='' texto='COP $ 2.014.040' href='javascript:void(0)' onclick="doMatrixFilter('DL', 1)"
+a        id='' name='' type='' texto='Múltiples Aerolíneas' href='javascript:void(0)' onclick="doMatrixFilter('Múltiples Aerolíneas', null)"
+a        id='' name='' type='' texto='COP $ 6.786.160' href='javascript:void(0)' onclick="doMatrixFilter('Múltiples Aerolíneas', 0)"
+a        id='' name='' type='' texto='COP $ 2.104.840' href='javascript:void(0)' onclick="doMatrixFilter('Múltiples Aerolíneas', 1)"
+a        id='' name='' type='' texto='Air Canada' href='javascript:void(0)' onclick="doMatrixFilter('AC', null)"
+a        id='' name='' type='' texto='COP $ 3.736.950' href='javascript:void(0)' onclick="doMatrixFilter('AC', 1)"
+a        id='' name='' type='' texto='Aeromexico' href='javascript:void(0)' onclick="doMatrixFilter('AM', null)"
+a        id='' name='' type='' texto='COP $ 7.197.650' href='javascript:void(0)' onclick="doMatrixFilter('AM', 1)"
+button   id='' name='' type='button' texto='' cls='slick-next slick-arrow'
+select   id='selectSort' name='' type='select-one' texto='Ordenar por Recomendación\nOrdenar por Pr' opts='Ordenar por Recomendación | Ordenar por Precio más bajo | Ordenar por Precio más alto'
+input    id='Air_0_sector_0_opt_0' name='Air_0_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_0', false, this, true)"
+input    id='Air_0_sector_0_opt_1' name='Air_0_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_1', false, this, true)"
+input    id='Air_0_sector_0_opt_2' name='Air_0_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_2', false, this, true)"
+input    id='Air_0_sector_0_opt_3' name='Air_0_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_3', false, this, true)"
+input    id='Air_0_sector_0_opt_4' name='Air_0_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_4', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_4', false, this, true)"
+input    id='Air_0_sector_0_opt_5' name='Air_0_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_5', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_0_opt_5', false, this, true)"
+input    id='Air_0_sector_1_opt_0' name='Air_0_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_0', false, this, true)"
+input    id='Air_0_sector_1_opt_1' name='Air_0_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_1', false, this, true)"
+input    id='Air_0_sector_1_opt_2' name='Air_0_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_2', false, this, true)"
+input    id='Air_0_sector_1_opt_3' name='Air_0_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_3', false, this, true)"
+input    id='Air_0_sector_1_opt_4' name='Air_0_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_4', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_0_sector_1_opt_4', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_0')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_0' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_0');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_1_sector_0_opt_0' name='Air_1_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_0', false, this, true)"
+input    id='Air_1_sector_0_opt_1' name='Air_1_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_1', false, this, true)"
+input    id='Air_1_sector_0_opt_2' name='Air_1_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_2', false, this, true)"
+input    id='Air_1_sector_0_opt_3' name='Air_1_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_3', false, this, true)"
+input    id='Air_1_sector_0_opt_4' name='Air_1_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_4', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_0_opt_4', false, this, true)"
+input    id='Air_1_sector_1_opt_0' name='Air_1_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_0', false, this, true)"
+input    id='Air_1_sector_1_opt_1' name='Air_1_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_1', false, this, true)"
+input    id='Air_1_sector_1_opt_2' name='Air_1_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_2', false, this, true)"
+input    id='Air_1_sector_1_opt_3' name='Air_1_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_1_sector_1_opt_3', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_1')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_1' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_1');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_2_sector_0_opt_0' name='Air_2_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_0', false, this, true)"
+input    id='Air_2_sector_0_opt_1' name='Air_2_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_1', false, this, true)"
+input    id='Air_2_sector_0_opt_2' name='Air_2_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_2', false, this, true)"
+input    id='Air_2_sector_0_opt_3' name='Air_2_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_3', false, this, true)"
+input    id='Air_2_sector_0_opt_4' name='Air_2_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_4', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_0_opt_4', false, this, true)"
+input    id='Air_2_sector_1_opt_0' name='Air_2_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_2_sector_1_opt_0', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_2')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_2' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_2');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_3_sector_0_opt_0' name='Air_3_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_0_opt_0', false, this, true)"
+input    id='Air_3_sector_1_opt_0' name='Air_3_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_0', false, this, true)"
+input    id='Air_3_sector_1_opt_1' name='Air_3_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_1', false, this, true)"
+input    id='Air_3_sector_1_opt_2' name='Air_3_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_2', false, this, true)"
+input    id='Air_3_sector_1_opt_3' name='Air_3_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_3_sector_1_opt_3', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_3')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_3' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_3');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_4_sector_0_opt_0' name='Air_4_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_0', false, this, true)"
+input    id='Air_4_sector_0_opt_1' name='Air_4_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_1', false, this, true)"
+input    id='Air_4_sector_0_opt_2' name='Air_4_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_2', false, this, true)"
+input    id='Air_4_sector_0_opt_3' name='Air_4_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_3', false, this, true)"
+input    id='Air_4_sector_0_opt_4' name='Air_4_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_4', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_0_opt_4', false, this, true)"
+input    id='Air_4_sector_1_opt_0' name='Air_4_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_4_sector_1_opt_0', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_4')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_4' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_4');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_5_sector_0_opt_0' name='Air_5_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_5_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_5_sector_0_opt_0', false, this, true)"
+input    id='Air_5_sector_1_opt_0' name='Air_5_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_5_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_5_sector_1_opt_0', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_5')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_5' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_5');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_6_sector_0_opt_0' name='Air_6_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_6_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_6_sector_0_opt_0', false, this, true)"
+input    id='Air_6_sector_1_opt_0' name='Air_6_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_6_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_6_sector_1_opt_0', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_6')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_6' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_6');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_7_sector_0_opt_0' name='Air_7_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_0_opt_0', false, this, true)"
+input    id='Air_7_sector_1_opt_0' name='Air_7_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_0', false, this, true)"
+input    id='Air_7_sector_1_opt_1' name='Air_7_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_1', false, this, true)"
+input    id='Air_7_sector_1_opt_2' name='Air_7_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_2', false, this, true)"
+input    id='Air_7_sector_1_opt_3' name='Air_7_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_7_sector_1_opt_3', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_7')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_7' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_7');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_8_sector_0_opt_0' name='Air_8_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_0', false, this, true)"
+input    id='Air_8_sector_0_opt_1' name='Air_8_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_1', false, this, true)"
+input    id='Air_8_sector_0_opt_2' name='Air_8_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_2', false, this, true)"
+input    id='Air_8_sector_0_opt_3' name='Air_8_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_3', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_3', false, this, true)"
+input    id='Air_8_sector_0_opt_4' name='Air_8_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_4', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_0_opt_4', false, this, true)"
+input    id='Air_8_sector_1_opt_0' name='Air_8_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_1_opt_0', false, this, true)"
+input    id='Air_8_sector_1_opt_1' name='Air_8_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_1_opt_1', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_1_opt_1', false, this, true)"
+input    id='Air_8_sector_1_opt_2' name='Air_8_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_1_opt_2', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_8_sector_1_opt_2', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_8')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_8' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_8');" cls='show-for-medium-up aQuoteOff has-tip'
+input    id='Air_9_sector_0_opt_0' name='Air_9_0' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_9_sector_0_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_9_sector_0_opt_0', false, this, true)"
+input    id='Air_9_sector_1_opt_0' name='Air_9_1' type='radio' texto='on' onclick='selectAirOption(this.id)'
+a        id='' name='' type='' texto='1 Escala' href='javascript:void(0)' onclick="openStopInfo('Air_9_sector_1_opt_0', false, this, false)"
+a        id='' name='' type='' texto='0' href='#' onclick='return false;' cls='off'
+a        id='' name='' type='' texto='' href='javascript:void(0)' onclick="openStopInfo('Air_9_sector_1_opt_0', false, this, true)"
+a        id='' name='' type='' texto=''
+a        id='' name='' type='' texto='Ver restricciones de las tarifas de los ' href='javascript:void(0)' onclick="openAirRules('Air_9')"
+button   id='' name='' type='button' texto='Seleccionar Vuelos' onclick="PostAirDetails('/Air/Details/a5928043-cfaa-4c9a-88e8-5fd283e" cls='button nts-button small expanded'
+a        id='lnkQuoteOpt_Air_9' name='' type='' texto='' href='javascript:void(0)' onclick="quoteAir(this, 'Air_9');" cls='show-for-medium-up aQuoteOff has-tip'
+a        id='' name='' type='' texto='1' cls='jp-current'
+a        id='' name='' type='' texto='2' href='#'
+a        id='' name='' type='' texto='3' href='#'
+a        id='' name='' type='' texto='4' href='#'
+a        id='' name='' type='' texto='5' href='#'
+a        id='' name='' type='' texto='29'
+a        id='' name='' type='' texto='siguiente' cls='jp-next'
