@@ -3,280 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Netactica - Página en Vivo</title>
-    <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --border: #e2e8f0; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
-        .connection { color: #64748b; font-size: 13px; }
-        button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button:disabled { background: #94a3b8; cursor: not-allowed; }
-        .header-actions { display: flex; gap: 8px; }
-        .grid { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .info-card { grid-column: 1 / -1; }
-        .step { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
-        .step:last-child { border-bottom: none; }
-        .step .dot { width: 12px; height: 12px; border-radius: 50%; background: #cbd5e1; margin-right: 10px; }
-        .step.running .dot { background: #f59e0b; animation: pulse 1s infinite; }
-        .step.ok .dot { background: #10b981; }
-        .step.error .dot { background: #ef4444; }
-        .step .name { flex: 1; }
-        .step .status { font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: #f1f5f9; }
-        .req-row { cursor: pointer; }
-        .req-row:hover { background: #f8fafc; }
-        .req-row.expanded { background: #eff6ff; }
-        .detail-box { display: none; padding: 15px; background: #f8fafc; border-radius: 4px; margin-top: 5px; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
-        .detail-box.show { display: block; }
-        .info-log { max-height: 240px; overflow-y: auto; font-family: monospace; font-size: 13px; }
-        .info-line { padding: 6px 0; border-bottom: 1px solid var(--border); white-space: pre-wrap; overflow-wrap: anywhere; }
-        .info-time { color: #64748b; margin-right: 10px; }
-        .network-scroll { max-height: 600px; overflow: auto; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
-        .badge.ok { background: #dcfce7; color: #166534; }
-        .badge.error { background: #fee2e2; color: #991b1b; }
-        img.screenshot { max-width: 100%; border: 1px solid var(--border); border-radius: 4px; margin-top: 5px; display: none; }
-        .step.ok img.screenshot { display: block; }
-    </style>
+    <title>Demo Netactica - Panel de Monitoreo</title>
+    <!-- Estilos CSS externos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>Demo Netactica</h1>
-        <span class="connection" id="streamStatus">Conectando eventos...</span>
-        <span class="connection" id="activeFlowStatus" aria-live="polite">Sin ejecuciones en curso</span>
-        <div class="header-actions">
-            <button id="btnRun" type="button" onclick="run()">Ejecutar Aéreo</button>
-            <button id="btnRunHotel" type="button" onclick="runHotel()">Ejecutar Hotel</button>
-        </div>
-    </div>
-    <div class="grid">
-        <div class="card">
-            <h3>Pasos del Flujo</h3>
-            <div id="steps"></div>
-        </div>
-        <div class="card">
-            <h3>Network (Peticiones: <span id="networkCount">0</span>)</h3>
-            <div class="network-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Método</th>
-                            <th>Tipo</th>
-                            <th>URL</th>
-                            <th>Status</th>
-                            <th>Estado</th>
-                            <th>Tiempo</th>
-                            <th>Tamaño</th>
-                        </tr>
-                    </thead>
-                    <tbody id="network"></tbody>
-                </table>
+    {% raw %}
+    <div id="app">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">
+                    <i data-lucide="globe" style="width: 24px; height: 24px;"></i>
+                </span>
+                <h1>Netactica Monitor</h1>
+                <span class="version">v2.0 — Vue</span>
+            </div>
+            <div class="header-controls">
+                <div class="status-indicator">
+                    <span class="status-dot" :class="{ disconnected: !connected }"></span>
+                    <span>{{ connected ? 'Conectado' : 'Reconectando...' }}</span>
+                </div>
+                <div class="status-indicator" v-if="runningFlow">
+                    <i data-lucide="play" style="width: 14px; height: 14px; color: #fbbf24;"></i>
+                    <span>Flujo activo: {{ runningFlow }}</span>
+                </div>
+                <button class="btn btn-primary" :disabled="isRunning" @click="startFlow('/run', 'Aéreo')">
+                    <i data-lucide="plane" style="width: 16px; height: 16px;"></i>
+                    <span>{{ isRunning && runningFlow === 'Aéreo' ? 'Ejecutando...' : 'Ejecutar Aéreo' }}</span>
+                </button>
+                <button class="btn btn-hotel" :disabled="isRunning" @click="startFlow('/run_hotel', 'Hotel')">
+                    <i data-lucide="building" style="width: 16px; height: 16px;"></i>
+                    <span>{{ isRunning && runningFlow === 'Hotel' ? 'Ejecutando...' : 'Ejecutar Hotel' }}</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- COLUMNA IZQUIERDA: PASOS -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <i data-lucide="list-checks" style="width: 18px; height: 18px; color: #60a5fa;"></i>
+                        Pasos del Flujo
+                    </h3>
+                    <span class="counter-badge" v-if="steps.length">{{ completedSteps }}/{{ steps.length }}</span>
+                </div>
+                <div class="card-body">
+                    <div v-if="!steps.length" style="padding: 24px; text-align: center; color: #64748b;">
+                        Inicia una ejecución para ver los pasos
+                    </div>
+                    <div v-for="(step, i) in steps" :key="i" class="step-item">
+                        <div class="step-dot" :class="step.status">
+                            <template v-if="step.status === 'ok'">
+                                <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+                            </template>
+                            <template v-else-if="step.status === 'error'">
+                                <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                            </template>
+                            <template v-else-if="step.status === 'running'">
+                                <i data-lucide="loader-2" style="width: 16px; height: 16px; animation: spin 1s linear infinite;"></i>
+                            </template>
+                            <template v-else>{{ i + 1 }}</template>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-name">{{ step.name }}</div>
+                            <div class="step-status" :class="step.status">
+                                {{ statusLabel(step.status) }}
+                            </div>
+                            <div v-if="step.error" class="step-error-msg">{{ step.error }}</div>
+                            <!-- SCREENSHOT THUMBNAIL (expandible) -->
+                            <div v-if="step.screenshot" class="step-screenshot" @click="openLightbox(i)">
+                                <img :src="'data:image/png;base64,' + step.screenshot" :alt="'Captura: ' + step.name">
+                                <div class="expand-hint">
+                                    <i data-lucide="zoom-in" style="width: 14px; height: 14px;"></i>
+                                    Click para ampliar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: NETWORK + VIDEO + LOG -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- NETWORK -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i data-lucide="activity" style="width: 18px; height: 18px; color: #34d399;"></i>
+                            Peticiones de Red
+                        </h3>
+                        <span class="counter-badge">{{ requests.length }}</span>
+                    </div>
+                    <div class="network-scroll">
+                        <table class="network-table">
+                            <thead>
+                                <tr>
+                                    <th>Método</th>
+                                    <th>Tipo</th>
+                                    <th>URL</th>
+                                    <th>Status</th>
+                                    <th>Estado</th>
+                                    <th>Tiempo</th>
+                                    <th>Tamaño</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-for="req in sortedRequests" :key="req.id">
+                                    <tr class="network-row" @click="toggleDetail(req.id)">
+                                        <td><b>{{ req.method }}</b></td>
+                                        <td>{{ req.rtype || '—' }}</td>
+                                        <td class="network-url" :title="req.url">{{ truncateUrl(req.url) }}</td>
+                                        <td>
+                                            <span v-if="req.status != null"
+                                                  class="badge"
+                                                  :class="req.status < 400 ? 'badge-ok' : 'badge-error'">
+                                                {{ req.status }}
+                                            </span>
+                                            <span v-else class="badge badge-pending">...</span>
+                                        </td>
+                                        <td>{{ stateLabel(req.state) }}</td>
+                                        <td>{{ req.time_ms != null ? req.time_ms + ' ms' : '...' }}</td>
+                                        <td>{{ req.size != null ? (req.size / 1024).toFixed(1) + ' KB' : '...' }}</td>
+                                    </tr>
+                                    <tr v-if="expandedReq === req.id">
+                                        <td colspan="7">
+                                            <div class="detail-box">{{ formatDetail(req) }}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                <tr v-if="!requests.length">
+                                    <td colspan="7" style="text-align: center; color: #64748b; padding: 28px;">
+                                        Las peticiones de red aparecerán aquí durante la ejecución
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- VIDEO DE GRABACIÓN -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i data-lucide="video" style="width: 18px; height: 18px; color: #a78bfa;"></i>
+                            Grabación del Proceso
+                        </h3>
+                        <span v-if="recording" style="color: #ef4444; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+                            <i data-lucide="circle-dot" style="width: 14px; height: 14px;"></i> REC
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="video-container">
+                            <video v-if="videoUrl" :src="videoUrl" controls preload="metadata"></video>
+                            <div v-else-if="recording" class="video-placeholder">
+                                <div class="icon-wrapper">
+                                    <i data-lucide="video" style="width: 42px; height: 42px; color: #ef4444;"></i>
+                                </div>
+                                <span>Grabando proceso en curso...</span>
+                                <small style="color: #64748b;">El video estará disponible al finalizar la ejecución</small>
+                            </div>
+                            <div v-else class="video-placeholder">
+                                <div class="icon-wrapper">
+                                    <i data-lucide="clapperboard" style="width: 42px; height: 42px;"></i>
+                                </div>
+                                <span>El video de la ejecución aparecerá aquí</span>
+                                <small style="color: #64748b;">Se graba automáticamente desde el login hasta el pago</small>
+                            </div>
+                            <div v-if="recording" class="video-recording-badge">
+                                <span class="rec-dot"></span>
+                                GRABANDO
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOG DE INFORMACIÓN -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i data-lucide="terminal" style="width: 18px; height: 18px; color: #38bdf8;"></i>
+                            Log de Ejecución
+                        </h3>
+                        <span class="counter-badge">{{ infoLines.length }}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-log" ref="infoLogRef">
+                            <div v-if="!infoLines.length" style="padding: 16px; text-align: center; color: #64748b;">
+                                Sin mensajes aún
+                            </div>
+                            <div v-for="(line, i) in infoLines" :key="i" class="info-line">
+                                <span class="info-time">{{ line.time }}</span>
+                                <span class="info-msg">{{ line.message }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card info-card">
-            <h3>Información de ejecución</h3>
-            <div id="infoLog" class="info-log" aria-live="polite"></div>
-        </div>
+
+        <!-- LIGHTBOX MODAL -->
+        <Transition name="lightbox-fade">
+            <div v-if="lightbox.open" class="lightbox-overlay" @keydown.escape="closeLightbox">
+                <div class="lightbox-backdrop" @click="closeLightbox"></div>
+                <div class="lightbox-content">
+                    <div class="lightbox-title">
+                        <i data-lucide="image" style="width: 18px; height: 18px;"></i>
+                        {{ lightbox.title }}
+                    </div>
+                    <div class="lightbox-img-wrapper">
+                        <img :src="lightbox.src" :alt="lightbox.title">
+                        <button class="lightbox-close" @click="closeLightbox" title="Cerrar (Esc)">
+                            <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+                        </button>
+                    </div>
+                    <div class="lightbox-step-badge">
+                        Paso {{ lightbox.stepIndex + 1 }} de {{ steps.length }}
+                        — Usa las teclas ← → para navegar entre capturas
+                    </div>
+                </div>
+            </div>
+        </Transition>
     </div>
+    {% endraw %}
 
+    <!-- Script de la aplicación Vue externa -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script>
-        const evtSource = new EventSource("/stream");
-        const btnRun = document.getElementById("btnRun");
-        const btnRunHotel = document.getElementById("btnRunHotel");
-        const stepsDiv = document.getElementById("steps");
-        const netTable = document.getElementById("network");
-        const networkCount = document.getElementById("networkCount");
-        const infoLog = document.getElementById("infoLog");
-        const streamStatus = document.getElementById("streamStatus");
-        const activeFlowStatus = document.getElementById("activeFlowStatus");
-        const reqs = new Set();
-        const maxInfoLines = 300;
-        let runningFlow = null;
-
-        function escapeHtml(value) {
-            return String(value ?? "").replace(/[&<>"']/g, char => ({
-                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-            })[char]);
-        }
-
-        function showInfo(message, timestamp = Date.now() / 1000) {
-            const line = document.createElement("div");
-            line.className = "info-line";
-            const time = document.createElement("span");
-            time.className = "info-time";
-            time.textContent = new Date(timestamp * 1000).toLocaleTimeString();
-            line.append(time, document.createTextNode(message));
-            infoLog.appendChild(line);
-            while (infoLog.children.length > maxInfoLines) infoLog.firstElementChild.remove();
-            infoLog.scrollTop = infoLog.scrollHeight;
-        }
-
-        function setRunButtonsDisabled(disabled, flowName = null) {
-            btnRun.disabled = disabled;
-            btnRunHotel.disabled = disabled;
-            btnRun.innerText = disabled && flowName === "Aéreo"
-                ? "Ejecutando Aéreo..."
-                : "Ejecutar Aéreo";
-            btnRunHotel.innerText = disabled && flowName === "Hotel"
-                ? "Ejecutando Hotel..."
-                : "Ejecutar Hotel";
-        }
-
-        function identifyFlow(steps = []) {
-            if (steps.includes("Buscar vuelos (aéreo)")) return "Aéreo";
-            if (steps.includes("Buscar hoteles")) return "Hotel";
-            return null;
-        }
-
-        function startFlow(endpoint, flowName) {
-            runningFlow = flowName;
-            activeFlowStatus.innerText = `Ejecutando flujo: ${flowName}`;
-            setRunButtonsDisabled(true, flowName);
-            fetch(endpoint, { method: "POST" })
-                .then(async response => {
-                    const result = await response.json();
-                    if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
-                })
-                .catch(error => {
-                    showInfo(`No se pudo iniciar el flujo ${flowName}: ${error.message}`);
-                    runningFlow = null;
-                    activeFlowStatus.innerText = `No se pudo iniciar el flujo ${flowName}`;
-                    setRunButtonsDisabled(false);
-                });
-        }
-
-        function run() {
-            startFlow("/run", "Aéreo");
-        }
-
-        function runHotel() {
-            startFlow("/run_hotel", "Hotel");
-        }
-
-        evtSource.onopen = () => { streamStatus.innerText = "Eventos conectados"; };
-        evtSource.onerror = () => { streamStatus.innerText = "Reconectando eventos..."; };
-        evtSource.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            
-            if (data.type === "reset") {
-                const eventFlow = identifyFlow(data.steps);
-                if (eventFlow) {
-                    runningFlow = eventFlow;
-                    activeFlowStatus.innerText = `Ejecutando flujo: ${eventFlow}`;
-                    setRunButtonsDisabled(true, eventFlow);
-                }
-                stepsDiv.innerHTML = "";
-                netTable.innerHTML = "";
-                networkCount.innerText = "0";
-                reqs.clear();
-                infoLog.innerHTML = "";
-                data.steps.forEach((name, i) => {
-                    stepsDiv.innerHTML += `
-                        <div class="step" id="step-${i}">
-                            <div class="dot"></div>
-                            <div class="name">${name}</div>
-                            <div class="status">Pendiente</div>
-                            <img class="screenshot" id="img-${i}">
-                        </div>`;
-                });
+        // Inicializar iconos de Lucide al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                window.lucide.createIcons();
             }
-            
-            if (data.type === "step") {
-                const el = document.getElementById(`step-${data.index}`);
-                if (!el) return;
-                el.className = `step ${data.status}`;
-                el.querySelector(".status").innerText = data.status;
-                if (data.screenshot) {
-                    document.getElementById(`img-${data.index}`).src = "data:image/png;base64," + data.screenshot;
-                }
-                if (data.error) {
-                    const error = document.createElement("small");
-                    error.style.color = "#ef4444";
-                    error.textContent = data.error;
-                    el.querySelector(".name").append(document.createElement("br"), error);
-                }
-            }
-
-            if (data.type === "info") {
-                showInfo(data.message, data.ts);
-            }
-
-            if (data.type === "done") {
-                const completedFlow = runningFlow;
-                runningFlow = null;
-                activeFlowStatus.innerText = completedFlow
-                    ? `Flujo ${completedFlow} ${data.ok ? "completado" : "finalizado con error"}`
-                    : "Sin ejecuciones en curso";
-                setRunButtonsDisabled(false);
-                if (!data.ok) console.error("Error en el flujo:", data.error);
-            }
-
-            if (data.type === "net") {
-                reqs.add(data.id);
-                networkCount.innerText = String(reqs.size);
-                let row = document.getElementById(`req-${data.id}`);
-                if (!row) {
-                    row = document.createElement("tr");
-                    row.id = `req-${data.id}`;
-                    row.className = "req-row";
-                    const detailRow = document.createElement("tr");
-                    detailRow.innerHTML = `<td colspan="7"><div class="detail-box" id="det-${escapeHtml(data.id)}"></div></td>`;
-                    row.onclick = () => {
-                        detailRow.querySelector(".detail-box").classList.toggle("show");
-                    };
-                    netTable.prepend(row);
-                    netTable.insertBefore(detailRow, row.nextSibling);
-                }
-                
-                const status = data.status != null
-                    ? `<span class="badge ${data.status < 400 ? 'ok' : 'error'}">${escapeHtml(data.status)}</span>`
-                    : "...";
-                const state = data.state === "failed" ? "Error" : data.state === "done" ? "Completa" : "En curso";
-                const time = data.time_ms != null ? `${escapeHtml(data.time_ms)} ms` : "...";
-                const size = data.size != null ? `${(data.size / 1024).toFixed(1)} KB` : "...";
-                
-                row.innerHTML = `
-                    <td><b>${escapeHtml(data.method)}</b></td>
-                    <td>${escapeHtml(data.rtype || "—")}</td>
-                    <td title="${escapeHtml(data.url)}">${escapeHtml(data.url.length > 80 ? data.url.substring(0, 80) + "..." : data.url)}</td>
-                    <td>${status}</td>
-                    <td>${state}</td>
-                    <td>${time}</td>
-                    <td>${size}</td>
-                `;
-                
-                const det = document.getElementById(`det-${data.id}`);
-                if (det) {
-                    det.innerText = [
-                        `URL: ${data.url}`,
-                        `Método: ${data.method}`,
-                        `Tipo: ${data.rtype || "—"}`,
-                        `Estado: ${state}`,
-                        `Status: ${data.status ?? "Pendiente"}`,
-                        `Tiempo: ${data.time_ms != null ? `${data.time_ms} ms` : "Pendiente"}`,
-                        `Tamaño: ${data.size != null ? `${data.size} bytes` : "Pendiente"}`,
-                        `MIME: ${data.mime || "—"}`,
-                        "",
-                        "Request headers:",
-                        JSON.stringify(data.req_headers || {}, null, 2),
-                        "",
-                        "Payload:",
-                        data.post_data || "No disponible",
-                        "",
-                        "Response headers:",
-                        JSON.stringify(data.res_headers || {}, null, 2),
-                        "",
-                        "Response body:",
-                        data.body || "No disponible",
-                        data.error ? `\nError: ${data.error}` : ""
-                    ].join("\n");
-                }
-            }
-        };
+        });
     </script>
 </body>
 </html>
