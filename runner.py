@@ -541,6 +541,138 @@ def _esperar_hotel_clicable(driver, key, paso, iframe):
     return element
 
 
+def _fragmento_html_hotel(page_source):
+    marker = page_source.lower().find("hoteles")
+    if marker < 0:
+        return "texto 'Hoteles' no encontrado; HTML inicial: " + page_source[:300]
+    start = max(0, marker - 250)
+    end = min(len(page_source), marker + 450)
+    return page_source[start:end].replace("\r", " ").replace("\n", " ")
+
+
+def _inspeccionar_contexto_hotel(driver, frame_path, top_url, snapshots):
+    frame_labels = [
+        frame_id or frame_name or f"iframe[{index}]"
+        for index, frame_id, frame_name in frame_path
+    ]
+    context = " > ".join(frame_labels) if frame_labels else "documento principal"
+    context_url = driver.execute_script("return window.location.href")
+    frames = driver.find_elements(By.CSS_SELECTOR, "iframe,frame")
+    frame_details = [
+        {
+            "index": index,
+            "id": frame.get_attribute("id") or "",
+            "name": frame.get_attribute("name") or "",
+            "src": (frame.get_attribute("src") or "")[:160],
+        }
+        for index, frame in enumerate(frames)
+    ]
+    matches = driver.find_elements(*loc("tab_hotel"))
+    html_fragment = _fragmento_html_hotel(driver.page_source)
+    snapshots.append(
+        (
+            context,
+            f"URL principal={top_url}; URL actual={context_url}; "
+            f"iframes detectados={len(frames)}; frames={frame_details!r}; "
+            f"coincidencias de tab_hotel={len(matches)}; "
+            f"HTML parcial alrededor de 'Hoteles'={html_fragment!r}",
+        )
+    )
+    if matches:
+        return frame_path
+
+    for index, frame in enumerate(frames):
+        frame_id = frame.get_attribute("id") or ""
+        frame_name = frame.get_attribute("name") or ""
+        driver.switch_to.frame(frame)
+        try:
+            found_path = _inspeccionar_contexto_hotel(
+                driver,
+                frame_path + [(index, frame_id, frame_name)],
+                top_url,
+                snapshots,
+            )
+        finally:
+            driver.switch_to.parent_frame()
+        if found_path is not None:
+            return found_path
+    return None
+
+
+def _localizar_pestana_hotel(driver, paso):
+    latest_snapshots = []
+
+    def buscar(_):
+        driver.switch_to.default_content()
+        top_url = driver.current_url
+        snapshots = []
+        found_path = _inspeccionar_contexto_hotel(
+            driver,
+            [],
+            top_url,
+            snapshots,
+        )
+        latest_snapshots[:] = snapshots
+        if found_path is not None:
+            return {"path": found_path}
+        return False
+
+    try:
+        result = WebDriverWait(driver, config.TIEMPO_ESPERA).until(buscar)
+    except TimeoutException as error:
+        for context, details in latest_snapshots:
+            _hotel_log(paso, context, details)
+        _hotel_log(
+            paso,
+            "documento principal y todos los iframes",
+            f"No se encontró el selector existente 'tab_hotel'="
+            f"{config.SEL['tab_hotel']!r}: {error}",
+        )
+        raise
+
+    frame_path = result["path"]
+    for context, details in latest_snapshots:
+        _hotel_log(paso, context, details)
+
+    driver.switch_to.default_content()
+    frame_labels = [
+        frame_id or frame_name or f"iframe[{index}]"
+        for index, frame_id, frame_name in frame_path
+    ]
+    context = " > ".join(frame_labels) if frame_labels else "documento principal"
+    for index, expected_id, expected_name in frame_path:
+        frames = driver.find_elements(By.CSS_SELECTOR, "iframe,frame")
+        if index >= len(frames):
+            raise RuntimeError(
+                f"El iframe de índice {index} desapareció al reingresar "
+                "al contexto de la pestaña Hoteles."
+            )
+        frame = frames[index]
+        actual_id = frame.get_attribute("id") or ""
+        actual_name = frame.get_attribute("name") or ""
+        if actual_id != expected_id or actual_name != expected_name:
+            raise RuntimeError(
+                f"El iframe de índice {index} cambió: "
+                f"esperado id='{expected_id}', name='{expected_name}'; "
+                f"actual id='{actual_id}', name='{actual_name}'."
+            )
+        _hotel_log(
+            paso,
+            context,
+            f"Reingresando al iframe verificado id='{actual_id}', "
+            f"name='{actual_name}', índice={index}.",
+        )
+        driver.switch_to.frame(frame)
+
+    context_url = driver.execute_script("return window.location.href")
+    _hotel_log(
+        paso,
+        context,
+        f"Contexto de la pestaña localizado y activo. URL actual={context_url}.",
+    )
+    return context
+
+
 def _preparar_reserva_hotel(driver):
     paso = "Paso 0 - Preparar reserva"
     _hotel_log(paso, "navegador", f"Abriendo {config.BASE_URL}.")
@@ -631,10 +763,14 @@ def _preparar_reserva_hotel(driver):
 
 def buscar_hotel(driver):
     paso = "Paso 1 - Buscar hoteles"
-    form_iframe = f"{config.FRAME_TAB_0} > {config.FRAME_FLOW}"
+    _hotel_log(
+        paso,
+        "documento principal",
+        "Buscando el selector tab_hotel en el documento y en todos sus iframes.",
+    )
+    form_iframe = _localizar_pestana_hotel(driver, paso)
     results_iframe = f"{config.FRAME_TAB_1} > {config.FRAME_FLOW}"
-    _hotel_log(paso, "default_content", "Conectando con el formulario HOTEL.")
-    reconectar_iframe(driver, config.FRAME_TAB_0, paso=paso)
+    _hotel_log(paso, form_iframe, "Se usará el contexto donde se encontró tab_hotel.")
     click_seguro(driver, "tab_hotel", paso=paso, iframe=form_iframe)
     _hotel_log(paso, form_iframe, "Pestaña Hoteles abierta.")
 

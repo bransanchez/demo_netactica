@@ -11,6 +11,7 @@
         .connection { color: #64748b; font-size: 13px; }
         button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         button:disabled { background: #94a3b8; cursor: not-allowed; }
+        .header-actions { display: flex; gap: 8px; }
         .grid { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .info-card { grid-column: 1 / -1; }
@@ -46,7 +47,11 @@
     <div class="header">
         <h1>Demo Netactica</h1>
         <span class="connection" id="streamStatus">Conectando eventos...</span>
-        <button id="btnRun" onclick="run()">Ejecutar Flujo</button>
+        <span class="connection" id="activeFlowStatus" aria-live="polite">Sin ejecuciones en curso</span>
+        <div class="header-actions">
+            <button id="btnRun" type="button" onclick="run()">Ejecutar Aéreo</button>
+            <button id="btnRunHotel" type="button" onclick="runHotel()">Ejecutar Hotel</button>
+        </div>
     </div>
     <div class="grid">
         <div class="card">
@@ -81,13 +86,16 @@
     <script>
         const evtSource = new EventSource("/stream");
         const btnRun = document.getElementById("btnRun");
+        const btnRunHotel = document.getElementById("btnRunHotel");
         const stepsDiv = document.getElementById("steps");
         const netTable = document.getElementById("network");
         const networkCount = document.getElementById("networkCount");
         const infoLog = document.getElementById("infoLog");
         const streamStatus = document.getElementById("streamStatus");
+        const activeFlowStatus = document.getElementById("activeFlowStatus");
         const reqs = new Set();
         const maxInfoLines = 300;
+        let runningFlow = null;
 
         function escapeHtml(value) {
             return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -107,19 +115,46 @@
             infoLog.scrollTop = infoLog.scrollHeight;
         }
 
-        function run() {
-            btnRun.disabled = true;
-            btnRun.innerText = "Ejecutando...";
-            fetch("/run", { method: "POST" })
+        function setRunButtonsDisabled(disabled, flowName = null) {
+            btnRun.disabled = disabled;
+            btnRunHotel.disabled = disabled;
+            btnRun.innerText = disabled && flowName === "Aéreo"
+                ? "Ejecutando Aéreo..."
+                : "Ejecutar Aéreo";
+            btnRunHotel.innerText = disabled && flowName === "Hotel"
+                ? "Ejecutando Hotel..."
+                : "Ejecutar Hotel";
+        }
+
+        function identifyFlow(steps = []) {
+            if (steps.includes("Buscar vuelos (aéreo)")) return "Aéreo";
+            if (steps.includes("Buscar hoteles")) return "Hotel";
+            return null;
+        }
+
+        function startFlow(endpoint, flowName) {
+            runningFlow = flowName;
+            activeFlowStatus.innerText = `Ejecutando flujo: ${flowName}`;
+            setRunButtonsDisabled(true, flowName);
+            fetch(endpoint, { method: "POST" })
                 .then(async response => {
                     const result = await response.json();
                     if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
                 })
                 .catch(error => {
-                    showInfo(`No se pudo iniciar el flujo: ${error.message}`);
-                    btnRun.disabled = false;
-                    btnRun.innerText = "Ejecutar Flujo";
+                    showInfo(`No se pudo iniciar el flujo ${flowName}: ${error.message}`);
+                    runningFlow = null;
+                    activeFlowStatus.innerText = `No se pudo iniciar el flujo ${flowName}`;
+                    setRunButtonsDisabled(false);
                 });
+        }
+
+        function run() {
+            startFlow("/run", "Aéreo");
+        }
+
+        function runHotel() {
+            startFlow("/run_hotel", "Hotel");
         }
 
         evtSource.onopen = () => { streamStatus.innerText = "Eventos conectados"; };
@@ -128,6 +163,12 @@
             const data = JSON.parse(event.data);
             
             if (data.type === "reset") {
+                const eventFlow = identifyFlow(data.steps);
+                if (eventFlow) {
+                    runningFlow = eventFlow;
+                    activeFlowStatus.innerText = `Ejecutando flujo: ${eventFlow}`;
+                    setRunButtonsDisabled(true, eventFlow);
+                }
                 stepsDiv.innerHTML = "";
                 netTable.innerHTML = "";
                 networkCount.innerText = "0";
@@ -165,8 +206,12 @@
             }
 
             if (data.type === "done") {
-                btnRun.disabled = false;
-                btnRun.innerText = "Ejecutar Flujo";
+                const completedFlow = runningFlow;
+                runningFlow = null;
+                activeFlowStatus.innerText = completedFlow
+                    ? `Flujo ${completedFlow} ${data.ok ? "completado" : "finalizado con error"}`
+                    : "Sin ejecuciones en curso";
+                setRunButtonsDisabled(false);
                 if (!data.ok) console.error("Error en el flujo:", data.error);
             }
 
