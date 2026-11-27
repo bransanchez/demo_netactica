@@ -21,6 +21,8 @@ ADULTOS      = os.getenv("NETA_ADULTOS", "1")
 
 # Datos de la búsqueda hotelera
 HOTEL_DESTINO      = os.getenv("NETA_HOTEL_DESTINO", "Bogotá")
+HOTEL_FECHA_IDA    = os.getenv("NETA_HOTEL_FECHA_IDA", "11-04-2027")
+HOTEL_FECHA_VUELTA = os.getenv("NETA_HOTEL_FECHA_VUELTA", "12-04-2027")
 HOTEL_HABITACIONES = os.getenv("NETA_HOTEL_HABITACIONES", "1")
 HOTEL_ADULTOS      = os.getenv("NETA_HOTEL_ADULTOS", "1")
 HOTEL_NINOS        = os.getenv("NETA_HOTEL_NINOS", "0")
@@ -92,30 +94,21 @@ SEL = {
     # --- MÓDULO DE PAGO ---
     "btn_pagar": ("xpath", "//input[contains(@id, 'btnPaymentMethodLOC')]"), 
 
-
     # --- HOTEL ---
-
-    "tab_hotel": ("xpath", "//a[contains(text(),'Hoteles')]"),
+    "tab_hotel": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_lblHotelTitle"),
 
     "hotel_destino": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCityDestination"),
+    "hotel_destino_opt": ("xpath", "//ul[contains(@class,'ui-autocomplete')]//td[contains(text(),'Bogotá')]"),
 
-    "hotel_checkin": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCheckIn"),
-
+    "hotel_checkin":  ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCheckIn"),
     "hotel_checkout": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCheckOut"),
 
-    "hotel_adultos": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlAdults1_Hotel"),
-
+    "hotel_adultos":      ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlAdults1_Hotel"),
     "hotel_habitaciones": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlRoomsCount_Hotel"),
-
-    "hotel_ninos": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlChilds1_Hotel"),
+    "hotel_ninos":        ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlChilds1_Hotel"),
 
     "buscar_hotel": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_btnQuoteHotel"),
 
-    "hotel_resultado": (None, None),
-
     "hotel_categoria_2_estrellas": ("id", "chk-category-3"),
-
     "hotel_seleccionar": ("xpath", "(//button[contains(text(),'Seleccionar')])[1]"),
-
-    }
-
+}
