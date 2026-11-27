@@ -380,3 +380,199 @@ def run_flow():
             MANTENER_ABIERTO_PARA_DEBUG = False 
             if not MANTENER_ABIERTO_PARA_DEBUG:
                 driver.quit()
+
+
+HOTEL_STEPS = [
+    "Preparar reserva",
+    "Buscar hoteles",
+    "Filtrar y seleccionar hotel",
+    "Confirmar selección de hotel",
+]
+
+
+def esperar_elemento(driver, key, tiempo=None):
+    timeout = tiempo if tiempo else config.TIEMPO_ESPERA
+    return WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located(loc(key))
+    )
+
+
+def click_seguro(driver, key):
+    element = esperar_elemento(driver, key)
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable(loc(key))
+        ).click()
+    except (ElementClickInterceptedException, ElementNotInteractableException, TimeoutException):
+        bus.emit("info", message=f"Elemento '{key}' bloqueado. Usando JS...")
+        driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        time.sleep(1)
+        driver.execute_script("arguments[0].click();", element)
+    time.sleep(1)
+
+
+def entrar_frame_seguro(driver, frame_id):
+    WebDriverWait(driver, config.TIEMPO_ESPERA).until(
+        EC.frame_to_be_available_and_switch_to_it((By.ID, frame_id))
+    )
+
+
+def reconectar_iframe(driver, tab_frame):
+    driver.switch_to.default_content()
+    entrar_frame_seguro(driver, tab_frame)
+    entrar_frame_seguro(driver, config.FRAME_FLOW)
+    time.sleep(1)
+
+
+def _preparar_reserva_hotel(driver):
+    driver.get(config.BASE_URL)
+    user = esperar_elemento(driver, "login_user")
+    user.clear()
+    user.send_keys(config.USERNAME)
+    password = esperar_elemento(driver, "login_pass")
+    password.clear()
+    password.send_keys(config.PASSWORD)
+    service = esperar_elemento(driver, "login_service")
+    service.clear()
+    service.send_keys(config.SERVICE)
+    click_seguro(driver, "login_submit")
+    WebDriverWait(driver, config.TIEMPO_ESPERA).until(
+        lambda current_driver: "Login.aspx" not in current_driver.current_url
+    )
+    time.sleep(2)
+
+    driver.switch_to.default_content()
+    click_seguro(driver, "crear_reserva")
+    try:
+        modal_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable(loc("seguir_sin_cliente"))
+        )
+        driver.execute_script("arguments[0].click();", modal_button)
+        time.sleep(5)
+    except TimeoutException:
+        pass
+
+    reconectar_iframe(driver, config.FRAME_TAB_0)
+    try:
+        WebDriverWait(driver, 5).until(
+            EC.visibility_of_element_located(loc("login_user"))
+        )
+        user = esperar_elemento(driver, "login_user")
+        user.send_keys(config.USERNAME)
+        password = esperar_elemento(driver, "login_pass")
+        password.send_keys(config.PASSWORD)
+        service = esperar_elemento(driver, "login_service")
+        service.send_keys(config.SERVICE)
+        click_seguro(driver, "login_submit")
+        time.sleep(4)
+        reconectar_iframe(driver, config.FRAME_TAB_0)
+    except TimeoutException:
+        pass
+
+
+def buscar_hotel(driver):
+    bus.emit("info", message="HOTEL: conectando con el formulario de búsqueda...")
+    reconectar_iframe(driver, config.FRAME_TAB_0)
+    click_seguro(driver, "tab_hotel")
+
+    destination = esperar_elemento(driver, "hotel_destino")
+    destination.clear()
+    destination.send_keys(config.HOTEL_DESTINO)
+    destination.send_keys(Keys.ARROW_DOWN)
+    destination.send_keys(Keys.ENTER)
+
+    # Se conservan las fechas que carga el formulario; no se proporcionaron fechas nuevas.
+    esperar_elemento(driver, "hotel_checkin")
+    esperar_elemento(driver, "hotel_checkout")
+    Select(esperar_elemento(driver, "hotel_habitaciones")).select_by_value(
+        config.HOTEL_HABITACIONES
+    )
+    Select(esperar_elemento(driver, "hotel_adultos")).select_by_value(
+        config.HOTEL_ADULTOS
+    )
+    Select(esperar_elemento(driver, "hotel_ninos")).select_by_value(
+        config.HOTEL_NINOS
+    )
+
+    bus.emit(
+        "info",
+        message=(
+            f"HOTEL: buscando en {config.HOTEL_DESTINO} "
+            f"({config.HOTEL_HABITACIONES} habitación, "
+            f"{config.HOTEL_ADULTOS} adulto, {config.HOTEL_NINOS} niños)."
+        ),
+    )
+    click_seguro(driver, "buscar_hotel")
+    reconectar_iframe(driver, config.FRAME_TAB_1)
+    esperar_elemento(driver, "hotel_categoria_2_estrellas")
+
+
+def seleccionar_hotel(driver):
+    bus.emit("info", message="HOTEL: aplicando filtro de 2 estrellas...")
+    reconectar_iframe(driver, config.FRAME_TAB_1)
+    category = esperar_elemento(driver, "hotel_categoria_2_estrellas")
+    if not category.is_selected():
+        click_seguro(driver, "hotel_categoria_2_estrellas")
+    esperar_elemento(driver, "hotel_seleccionar")
+
+    bus.emit("info", message="HOTEL: seleccionando el primer resultado...")
+    click_seguro(driver, "hotel_seleccionar")
+
+
+def confirmar_hotel(driver):
+    bus.emit(
+        "info",
+        message="HOTEL: se completó el clic en Seleccionar del primer resultado.",
+    )
+
+
+def run_hotel():
+    bus.emit("reset", steps=HOTEL_STEPS)
+    driver, net = None, None
+    current = None
+
+    def step(index, function):
+        nonlocal current
+        current = index
+        bus.emit(
+            "step",
+            index=index,
+            name=HOTEL_STEPS[index],
+            status="running",
+        )
+        function()
+        screenshot = base64.b64encode(driver.get_screenshot_as_png()).decode()
+        bus.emit(
+            "step",
+            index=index,
+            name=HOTEL_STEPS[index],
+            status="ok",
+            screenshot=screenshot,
+        )
+
+    try:
+        driver = build_driver()
+        net = NetworkCollector(driver)
+        net.start()
+
+        step(0, lambda: _preparar_reserva_hotel(driver))
+        step(1, lambda: buscar_hotel(driver))
+        step(2, lambda: seleccionar_hotel(driver))
+        step(3, lambda: confirmar_hotel(driver))
+        bus.emit("done", ok=True)
+    except Exception as error:
+        index = current if current is not None else 0
+        bus.emit(
+            "step",
+            index=index,
+            name=HOTEL_STEPS[index],
+            status="error",
+            error=str(error),
+        )
+        bus.emit("done", ok=False, error=traceback.format_exc())
+    finally:
+        if net:
+            time.sleep(1)
+            net.stop()
+        if driver:
+            driver.quit()

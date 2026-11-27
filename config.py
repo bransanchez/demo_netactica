@@ -19,6 +19,12 @@ FECHA_IDA    = os.getenv("NETA_FECHA_IDA", "12-04-2027")
 FECHA_VUELTA = os.getenv("NETA_FECHA_VUELTA", "19-04-2027")
 ADULTOS      = os.getenv("NETA_ADULTOS", "1")
 
+# Datos de la búsqueda hotelera
+HOTEL_DESTINO      = os.getenv("NETA_HOTEL_DESTINO", "Bogotá")
+HOTEL_HABITACIONES = os.getenv("NETA_HOTEL_HABITACIONES", "1")
+HOTEL_ADULTOS      = os.getenv("NETA_HOTEL_ADULTOS", "1")
+HOTEL_NINOS        = os.getenv("NETA_HOTEL_NINOS", "0")
+
 # Datos del Pasajero
 PAX_NOMBRE       = os.getenv("NETA_PAX_NOMBRE", "Juan")
 PAX_APELLIDO     = os.getenv("NETA_PAX_APELLIDO", "Perez")
@@ -89,23 +95,27 @@ SEL = {
 
     # --- HOTEL ---
 
-    "tab_hotel": (None, None),
+    "tab_hotel": ("xpath", "//a[contains(text(),'Hoteles')]"),
 
-    "hotel_destino": (None, None),
+    "hotel_destino": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCityDestination"),
 
-    "hotel_checkin": (None, None),
+    "hotel_checkin": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCheckIn"),
 
-    "hotel_checkout": (None, None),
+    "hotel_checkout": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_txtCheckOut"),
 
-    "hotel_adultos": (None, None),
+    "hotel_adultos": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlAdults1_Hotel"),
 
-    "hotel_habitaciones": (None, None),
+    "hotel_habitaciones": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlRoomsCount_Hotel"),
 
-    "buscar_hotel": (None, None),
+    "hotel_ninos": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_ddlChilds1_Hotel"),
+
+    "buscar_hotel": ("id", "ctl00_ctl00_NetSiteContentPlaceHolder_NetFulfillmentContentPlaceHolder_btnQuoteHotel"),
 
     "hotel_resultado": (None, None),
 
-    "hotel_seleccionar": (None, None),
+    "hotel_categoria_2_estrellas": ("id", "chk-category-3"),
+
+    "hotel_seleccionar": ("xpath", "(//button[contains(text(),'Seleccionar')])[1]"),
 
     }
 

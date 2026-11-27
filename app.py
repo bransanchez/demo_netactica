@@ -29,5 +29,20 @@ def run():
     threading.Thread(target=job, daemon=True).start()
     return jsonify(ok=True)
 
+
+@app.post("/run_hotel")
+def run_hotel():
+    if state["running"]:
+        return jsonify(ok=False, error="Ya hay una ejecución en curso"), 409
+    def job():
+        state["running"] = True
+        try:
+            runner.run_hotel()
+        finally:
+            state["running"] = False
+    threading.Thread(target=job, daemon=True).start()
+    return jsonify(ok=True)
+
+
 if __name__ == "__main__":
     app.run(port=5000, threaded=True)
