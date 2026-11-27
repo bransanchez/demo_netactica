@@ -15,8 +15,8 @@ SERVICE  = os.getenv("NETA_SERVICE", "regresion")
 # Datos de la búsqueda aérea
 ORIGEN       = os.getenv("NETA_ORIGEN", "Bogotá")
 DESTINO      = os.getenv("NETA_DESTINO", "Miami")
-FECHA_IDA    = os.getenv("NETA_FECHA_IDA", "11-03-2027")
-FECHA_VUELTA = os.getenv("NETA_FECHA_VUELTA", "18-03-2027")
+FECHA_IDA    = os.getenv("NETA_FECHA_IDA", "12-04-2027")
+FECHA_VUELTA = os.getenv("NETA_FECHA_VUELTA", "19-04-2027")
 ADULTOS      = os.getenv("NETA_ADULTOS", "1")
 
 # Datos del Pasajero
