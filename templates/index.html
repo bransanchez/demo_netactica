@@ -7,11 +7,13 @@
     <style>
         :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --border: #e2e8f0; }
         body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .connection { color: #64748b; font-size: 13px; }
         button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         button:disabled { background: #94a3b8; cursor: not-allowed; }
         .grid { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .info-card { grid-column: 1 / -1; }
         .step { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); font-size: 14px; }
         .step:last-child { border-bottom: none; }
         .step .dot { width: 12px; height: 12px; border-radius: 50%; background: #cbd5e1; margin-right: 10px; }
@@ -28,6 +30,10 @@
         .req-row.expanded { background: #eff6ff; }
         .detail-box { display: none; padding: 15px; background: #f8fafc; border-radius: 4px; margin-top: 5px; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
         .detail-box.show { display: block; }
+        .info-log { max-height: 240px; overflow-y: auto; font-family: monospace; font-size: 13px; }
+        .info-line { padding: 6px 0; border-bottom: 1px solid var(--border); white-space: pre-wrap; overflow-wrap: anywhere; }
+        .info-time { color: #64748b; margin-right: 10px; }
+        .network-scroll { max-height: 600px; overflow: auto; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
         .badge.ok { background: #dcfce7; color: #166534; }
@@ -39,6 +45,7 @@
 <body>
     <div class="header">
         <h1>Demo Netactica</h1>
+        <span class="connection" id="streamStatus">Conectando eventos...</span>
         <button id="btnRun" onclick="run()">Ejecutar Flujo</button>
     </div>
     <div class="grid">
@@ -47,14 +54,16 @@
             <div id="steps"></div>
         </div>
         <div class="card">
-            <h3>Network (Peticiones)</h3>
-            <div style="max-height: 600px; overflow-y: auto;">
+            <h3>Network (Peticiones: <span id="networkCount">0</span>)</h3>
+            <div class="network-scroll">
                 <table>
                     <thead>
                         <tr>
                             <th>Método</th>
+                            <th>Tipo</th>
                             <th>URL</th>
                             <th>Status</th>
+                            <th>Estado</th>
                             <th>Tiempo</th>
                             <th>Tamaño</th>
                         </tr>
@@ -63,6 +72,10 @@
                 </table>
             </div>
         </div>
+        <div class="card info-card">
+            <h3>Información de ejecución</h3>
+            <div id="infoLog" class="info-log" aria-live="polite"></div>
+        </div>
     </div>
 
     <script>
@@ -70,21 +83,56 @@
         const btnRun = document.getElementById("btnRun");
         const stepsDiv = document.getElementById("steps");
         const netTable = document.getElementById("network");
-        let reqs = {};
+        const networkCount = document.getElementById("networkCount");
+        const infoLog = document.getElementById("infoLog");
+        const streamStatus = document.getElementById("streamStatus");
+        const reqs = new Set();
+        const maxInfoLines = 300;
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            })[char]);
+        }
+
+        function showInfo(message, timestamp = Date.now() / 1000) {
+            const line = document.createElement("div");
+            line.className = "info-line";
+            const time = document.createElement("span");
+            time.className = "info-time";
+            time.textContent = new Date(timestamp * 1000).toLocaleTimeString();
+            line.append(time, document.createTextNode(message));
+            infoLog.appendChild(line);
+            while (infoLog.children.length > maxInfoLines) infoLog.firstElementChild.remove();
+            infoLog.scrollTop = infoLog.scrollHeight;
+        }
 
         function run() {
             btnRun.disabled = true;
             btnRun.innerText = "Ejecutando...";
-            fetch("/run", { method: "POST" }).catch(e => console.error(e));
+            fetch("/run", { method: "POST" })
+                .then(async response => {
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.error || `HTTP ${response.status}`);
+                })
+                .catch(error => {
+                    showInfo(`No se pudo iniciar el flujo: ${error.message}`);
+                    btnRun.disabled = false;
+                    btnRun.innerText = "Ejecutar Flujo";
+                });
         }
 
+        evtSource.onopen = () => { streamStatus.innerText = "Eventos conectados"; };
+        evtSource.onerror = () => { streamStatus.innerText = "Reconectando eventos..."; };
         evtSource.onmessage = function(event) {
             const data = JSON.parse(event.data);
             
             if (data.type === "reset") {
                 stepsDiv.innerHTML = "";
                 netTable.innerHTML = "";
-                reqs = {};
+                networkCount.innerText = "0";
+                reqs.clear();
+                infoLog.innerHTML = "";
                 data.steps.forEach((name, i) => {
                     stepsDiv.innerHTML += `
                         <div class="step" id="step-${i}">
@@ -98,18 +146,22 @@
             
             if (data.type === "step") {
                 const el = document.getElementById(`step-${data.index}`);
+                if (!el) return;
                 el.className = `step ${data.status}`;
                 el.querySelector(".status").innerText = data.status;
                 if (data.screenshot) {
                     document.getElementById(`img-${data.index}`).src = "data:image/png;base64," + data.screenshot;
                 }
                 if (data.error) {
-                    el.querySelector(".name").innerHTML += `<br><small style="color:#ef4444">${data.error}</small>`;
+                    const error = document.createElement("small");
+                    error.style.color = "#ef4444";
+                    error.textContent = data.error;
+                    el.querySelector(".name").append(document.createElement("br"), error);
                 }
             }
 
             if (data.type === "info") {
-                console.log("INFO:", data.message);
+                showInfo(data.message, data.ts);
             }
 
             if (data.type === "done") {
@@ -119,38 +171,64 @@
             }
 
             if (data.type === "net") {
+                reqs.add(data.id);
+                networkCount.innerText = String(reqs.size);
                 let row = document.getElementById(`req-${data.id}`);
                 if (!row) {
                     row = document.createElement("tr");
                     row.id = `req-${data.id}`;
                     row.className = "req-row";
+                    const detailRow = document.createElement("tr");
+                    detailRow.innerHTML = `<td colspan="7"><div class="detail-box" id="det-${escapeHtml(data.id)}"></div></td>`;
                     row.onclick = () => {
-                        const detail = row.nextElementSibling;
-                        if (detail) detail.classList.toggle("show");
+                        detailRow.querySelector(".detail-box").classList.toggle("show");
                     };
                     netTable.prepend(row);
-                    
-                    // Fila de detalle
-                    const detailRow = document.createElement("tr");
-                    detailRow.innerHTML = `<td colspan="5"><div class="detail-box" id="det-${data.id}"></div></td>`;
                     netTable.insertBefore(detailRow, row.nextSibling);
                 }
                 
-                const status = data.status ? `<span class="badge ${data.status < 400 ? 'ok' : 'error'}">${data.status}</span>` : "...";
-                const time = data.time_ms ? data.time_ms + " ms" : "...";
-                const size = data.size ? (data.size / 1024).toFixed(1) + " KB" : "...";
+                const status = data.status != null
+                    ? `<span class="badge ${data.status < 400 ? 'ok' : 'error'}">${escapeHtml(data.status)}</span>`
+                    : "...";
+                const state = data.state === "failed" ? "Error" : data.state === "done" ? "Completa" : "En curso";
+                const time = data.time_ms != null ? `${escapeHtml(data.time_ms)} ms` : "...";
+                const size = data.size != null ? `${(data.size / 1024).toFixed(1)} KB` : "...";
                 
                 row.innerHTML = `
-                    <td><b>${data.method}</b></td>
-                    <td>${data.url.length > 80 ? data.url.substring(0, 80) + "..." : data.url}</td>
+                    <td><b>${escapeHtml(data.method)}</b></td>
+                    <td>${escapeHtml(data.rtype || "—")}</td>
+                    <td title="${escapeHtml(data.url)}">${escapeHtml(data.url.length > 80 ? data.url.substring(0, 80) + "..." : data.url)}</td>
                     <td>${status}</td>
+                    <td>${state}</td>
                     <td>${time}</td>
                     <td>${size}</td>
                 `;
                 
                 const det = document.getElementById(`det-${data.id}`);
                 if (det) {
-                    det.innerText = `URL: ${data.url}\nMétodo: ${data.method}\nStatus: ${data.status || 'Pendiente'}\n\nHeaders:\n${JSON.stringify(data.res_headers || {}, null, 2)}\n\nBody:\n${data.body || 'No disponible'}`;
+                    det.innerText = [
+                        `URL: ${data.url}`,
+                        `Método: ${data.method}`,
+                        `Tipo: ${data.rtype || "—"}`,
+                        `Estado: ${state}`,
+                        `Status: ${data.status ?? "Pendiente"}`,
+                        `Tiempo: ${data.time_ms != null ? `${data.time_ms} ms` : "Pendiente"}`,
+                        `Tamaño: ${data.size != null ? `${data.size} bytes` : "Pendiente"}`,
+                        `MIME: ${data.mime || "—"}`,
+                        "",
+                        "Request headers:",
+                        JSON.stringify(data.req_headers || {}, null, 2),
+                        "",
+                        "Payload:",
+                        data.post_data || "No disponible",
+                        "",
+                        "Response headers:",
+                        JSON.stringify(data.res_headers || {}, null, 2),
+                        "",
+                        "Response body:",
+                        data.body || "No disponible",
+                        data.error ? `\nError: ${data.error}` : ""
+                    ].join("\n");
                 }
             }
         };

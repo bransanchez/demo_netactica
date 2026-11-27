@@ -32,6 +32,8 @@ FRAME_TAB_0 = "iframeTab_0"
 FRAME_TAB_1 = "iframeTab_1"   
 FRAME_FLOW  = "ctl00_FlowIFrame" 
 
+HEADLESS = False
+
 SEL = {
     # --- LOGIN ---
     "login_user":    ("id", "Login_UserName"),

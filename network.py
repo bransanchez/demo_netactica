@@ -13,12 +13,19 @@ class NetworkCollector(threading.Thread):
         self.stop_flag = threading.Event()
 
     def run(self):
+        last_error = None
         while not self.stop_flag.is_set():
             try:
                 for entry in self.driver.get_log("performance"):
                     self._handle(json.loads(entry["message"])["message"])
-            except Exception:
-                pass
+                if last_error:
+                    bus.emit("info", message="Captura de red restablecida.")
+                    last_error = None
+            except Exception as exc:
+                error = str(exc)
+                if error != last_error:
+                    bus.emit("info", message=f"Error capturando tráfico de red: {error}")
+                    last_error = error
             time.sleep(0.25)
 
     def stop(self):
@@ -40,6 +47,7 @@ class NetworkCollector(threading.Thread):
             r = p["response"]
             self.reqs[rid].update(status=r["status"], mime=r.get("mimeType"),
                                   res_headers=r.get("headers", {}))
+            bus.emit("net", **self.reqs[rid])
         elif m == "Network.loadingFinished" and rid in self.reqs:
             q = self.reqs[rid]
             q["state"] = "done"
